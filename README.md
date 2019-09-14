@@ -7,17 +7,17 @@ wrk -t12 -c400 -d30s http://localhost:5000/v1/clients
 
 | lang                | app      | init memory | 12 threads and 400 http connections |
 | ------------------- | -------- | ------------| ----------------------------------  |
-| kotlin + springboot | clientsb |  574mb      | 759.3mb ->  see 1                   |
-| elixir + phoenix    | clientex |  203mb      | 287.3mb ->  see 2                   |
-| python              | TODO     |             |                                     |
-| javascript + nodejs | TODO     |             |                                     |
-| rust                | TODO     |             |                                     |
-| go                  | TODO     |             |                                     |
-| clojure             | TODO     |             |                                     |
+| 1 kotlin + springboot | clientsb |  574mb      | 759.3mb ->  see 1                   |
+| 2 elixir + phoenix    | clientex |  203mb      | 287.3mb ->  see 2                   |
+| 3 python              | TODO     |             |                                     |
+| 4 javascript + nodejs | TODO     |             |                                     |
+| 5 rust                | TODO     |             |                                     |
+| 6 go                  | TODO     |             |                                     |
+| 7 clojure             | TODO     |             |                                     |
 
 
 
-1. clientsb with 12 threads and 400 http connections
+1. SpringBoot + Kotlin with 12 threads and 400 http connections
 ```   
 Thread Stats   Avg      Stdev     Max   +/- Stdev   
     Latency    83.22ms  158.97ms   2.00s    93.98%   
@@ -28,7 +28,7 @@ Requests/sec:   3932.11
 Transfer/sec:      1.78MB   
 ```
 
-2. clientex with 12 threads and 400 connections
+2. Elixir + Phoenix with 12 threads and 400 connections
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency    25.38ms    5.14ms  81.21ms   72.23%
