@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  mysql:
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    volumes:
+      - .docker/mysql/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=guest
+      - MYSQL_PASSWORD=guest
+      - MYSQL_DATABASE=test
+      - TZ=Brazil/East
+

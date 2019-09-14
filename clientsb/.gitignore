@@ -1,0 +1,11 @@
+.idea
+*.iml
+target
+*.jar
+*.aar
+*.zip
+node_modules
+/www
+.gradle
+/build
+out/

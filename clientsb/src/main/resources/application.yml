@@ -1,0 +1,34 @@
+server:
+  port: 5000
+  tomcat:
+    max-threads: 5
+logging:
+  level:
+    root: INFO
+spring:
+  application:
+    name: clientsb
+  profiles:
+    active: default
+  output:
+    ansi:
+      enabled: always
+  # Configuracoes da base de dados
+  datasource:
+    url: jdbc:mysql://localhost:3306/test
+    username: guest
+    password: guest
+    hikari:
+      min-idle: 1
+      maximum-pool-size: 5
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        show_sql: false
+        format_sql: false
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: validate
