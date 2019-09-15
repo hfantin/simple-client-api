@@ -16,15 +16,15 @@ the endpoints will return something like this:
 ```
 
 ### Memory usage
-| seq | lang                | app      | init memory | 12 threads and 400 http connections |
-| --  | ------------------- | -------- | ------------| ----------------------------------  |
-| 1 | kotlin + springboot | clientsb |  519mb | 672.4mb |
-| 2 | elixir + phoenix    | clientex |  51mb  | 386.3mb |
-| 3 | golang              | clientgo |  5.6mb | 30mb |
-| 4 | python              | TODO     |  |  |
-| 5 | javascript + nodejs | TODO     |  |  |
-| 6 | rust                | TODO     |  |  |
-| 7 | clojure             | TODO     |  |  |
+| seq | language | app | initial | with load |
+| --- | --- | --- | --- | ---  |
+| 1 | kotlin + springboot | clientsb |  519 MB | 672.4 MB |
+| 2 | elixir + phoenix    | clientex |  51 MB  | 386.3 MB |
+| 3 | golang              | clientgo |  5.6 MB | 30 MB |
+| 4 | python              | TODO |  |  |
+| 5 | javascript + nodejs | TODO |  |  |
+| 6 | rust                | TODO |  |  |
+| 7 | clojure             | TODO |  |  |
 
  ### WRK results
 
