@@ -1,6 +1,5 @@
 # Simple client api - comparation between multiple languages
 
-# Execution
 1. Springboot client:   
    wrk -t12 -c400 -d30s http://localhost:5000/v1/clients
 2. Elixir client:   
@@ -76,7 +75,7 @@ Transfer/sec:     40.83MB
 
 ```
 
-3. Golang client with 12 threads and 400 connections
+3. Golang client with 12 threads and 400 connections   
 table with 5 rows:    
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
