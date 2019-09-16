@@ -146,3 +146,13 @@ Requests/sec:   2930.85
 Transfer/sec:      1.57MB
 
 ```
+
+
+| seq | project | rows | Latency Avg |  Stdev | Max | +/- Stdev | Req/Sec Avg | Stdev | Max | +/- Stdev | requests | Requests/sec | Transfer/sec |
+| -- | -- | -- | -- |  -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
+| 1 | Springboot | 5 | 83.22ms | 158.97ms | 2.00s | 93.98% | 337.30 | 101.43 | 595.00 | 69.84% | 118344 in 30.10s, 53.72MB read | 3932.11 | 1.78MB |
+| 2 | Elixir | 5 | 25.38ms | 5.14ms | 81.21ms | 72.23% | 1.31k | 91.74 | 1.78k | 78.83% | 468782 requests in 30.09s, 119.45MB read | 15577.89 | 3.97MB |
+| 7 | Clojure | 5 | 134.84ms | 72.00ms | 1.17s | 83.26% | 251.85 | 50.83 | 0.88k | 76.66% | 88215 in 30.10s, 47.11MB read | 2930.85 | 1.57MB |
+
+
+        
