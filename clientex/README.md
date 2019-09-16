@@ -37,3 +37,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 # Run 
 - mix deps.get
 - mix phx.server
+
+
+# Run production
+[deployment](https://hexdocs.pm/phoenix/deployment.html)

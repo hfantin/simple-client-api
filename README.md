@@ -6,6 +6,13 @@
    wrk -t12 -c400 -d30s http://localhost:4000/api/clients
 3. Golang client:   
    wrk -t12 -c400 -d30s http://localhost:3000/v1/clients/all
+4. Python 
+   TODO
+
+5. Nodejs
+   wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
+
+
 
 the endpoints will return something like this:   
 ```
@@ -22,7 +29,7 @@ the endpoints will return something like this:
 | 2 | elixir + phoenix    | clientex |  51 MB  | 386.3 MB |
 | 3 | golang              | clientgo |  5.6 MB | 30 MB |
 | 4 | python              | TODO |  |  |
-| 5 | javascript + nodejs | TODO |  |  |
+| 5 | javascript + nodejs | node-simple-api | 36.7 MB | 36.9 MB |
 | 6 | rust                | TODO |  |  |
 | 7 | clojure             | TODO |  |  |
 
@@ -105,3 +112,16 @@ Transfer/sec:     22.48MB
 4. TODO
 ```
 ```
+
+
+5. Javascript - nodejs  12 threads and 400 connections
+table with 5 rows:    
+```
+   Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   213.46ms   19.51ms 513.14ms   93.18%
+    Req/Sec   153.40     85.56   330.00     57.95%
+  54285 requests in 30.10s, 17.24MB read
+Requests/sec:   1803.48
+Transfer/sec:    586.35KB
+```
+obs.: {"status":500,"error":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":"08004","fatal":true},"data":null}
