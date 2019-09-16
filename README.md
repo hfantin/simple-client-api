@@ -12,6 +12,11 @@
 5. Nodejs
    wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
 
+6. Rust
+
+7. wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
+
+
 
 
 the endpoints will return something like this:   
@@ -29,13 +34,14 @@ the endpoints will return something like this:
 | 2 | elixir + phoenix    | clientex |  51 MB  | 386.3 MB |
 | 3 | golang              | clientgo |  5.6 MB | 30 MB |
 | 4 | python              | TODO |  |  |
-| 5 | javascript + nodejs | node-simple-api | 36.7 MB | 36.9 MB |
+| 5 | javascript + nodejs | clientjs | 36.8 MB | 36.8 MB |
 | 6 | rust                | TODO |  |  |
-| 7 | clojure             | TODO |  |  |
+| 7 | clojure             | clojure_rest_api | 221.1 MB | 221.5 MB |
+|   | clojure subprocess  |   | 355.2 MB | 414.9 MB |
 
- ### WRK results
+ ### WRK results - 12 threads and 400 http connections
 
-1. SpringBoot client with 12 threads and 400 http connections
+1. SpringBoot + Kotlin:    
 
 table with 5 rows:    
 ```   
@@ -59,8 +65,7 @@ Transfer/sec:     17.12MB
 
 ```
 
-2. Elixir client with 12 threads and 400 connections
-
+2. Elixir + Phoenix:   
 table with 5 rows:   
 ```
    Thread Stats   Avg      Stdev     Max   +/- Stdev
@@ -82,7 +87,7 @@ Transfer/sec:     40.83MB
 
 ```
 
-3. Golang client with 12 threads and 400 connections   
+3. Golang + Gorilla Mux:   
 table with 5 rows:    
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
@@ -109,19 +114,35 @@ Transfer/sec:     22.48MB
 ```
 0bs.: Many errors: [mysql] 2019/09/15 11:20:54 packets.go:36: unexpected EOF
 
-4. TODO
+4. Python 
 ```
+TODO
 ```
 
 
-5. Javascript - nodejs  12 threads and 400 connections
+5. Javascript - Nodejs
 table with 5 rows:    
 ```
-   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   213.46ms   19.51ms 513.14ms   93.18%
-    Req/Sec   153.40     85.56   330.00     57.95%
-  54285 requests in 30.10s, 17.24MB read
-Requests/sec:   1803.48
-Transfer/sec:    586.35KB
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    98.78ms    8.77ms 342.61ms   93.23%
+    Req/Sec   331.17     43.07   590.00     90.92%
+  117415 requests in 30.09s, 83.65MB read
+Requests/sec:   3901.77
+Transfer/sec:      2.78MB
 ```
-obs.: {"status":500,"error":{"code":"ER_CON_COUNT_ERROR","errno":1040,"sqlMessage":"Too many connections","sqlState":"08004","fatal":true},"data":null}
+
+6. Rust
+```
+```
+
+7. Clojure:
+table with 5 rows
+```
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   134.84ms   72.00ms   1.17s    83.26%
+    Req/Sec   251.85     50.83     0.88k    76.66%
+  88215 requests in 30.10s, 47.11MB read
+Requests/sec:   2930.85
+Transfer/sec:      1.57MB
+
+```
