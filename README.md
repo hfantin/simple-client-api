@@ -6,17 +6,16 @@
    wrk -t12 -c400 -d30s http://localhost:4000/api/clients
 3. Golang client:   
    wrk -t12 -c400 -d30s http://localhost:3000/v1/clients/all
-4. Python 
-   TODO
 
 5. Nodejs
    wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
 
-6. Rust
-
 7. wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
 
+6. Rust
 
+7. Python 
+   TODO
 
 
 the endpoints will return something like this:   
@@ -33,11 +32,11 @@ the endpoints will return something like this:
 | 1 | kotlin + springboot | clientsb |  519 MB | 672.4 MB |
 | 2 | elixir + phoenix    | clientex |  51 MB  | 386.3 MB |
 | 3 | golang              | clientgo |  5.6 MB | 30 MB |
-| 4 | python              | TODO |  |  |
-| 5 | javascript + nodejs | clientjs | 36.8 MB | 36.8 MB |
-| 6 | rust                | TODO |  |  |
-| 7 | clojure             | clojure_rest_api | 221.1 MB | 221.5 MB |
+| 4 | javascript + nodejs | clientjs | 36.8 MB | 36.8 MB |
+| 5 | clojure             | clojure_rest_api | 221.1 MB | 221.5 MB |
 |   | clojure subprocess  |   | 355.2 MB | 414.9 MB |
+| 6 | rust                | TODO |  |  |
+| 7 | python              | TODO |  |  |
 
  ### WRK results - 12 threads and 400 http connections
 
@@ -114,13 +113,8 @@ Transfer/sec:     22.48MB
 ```
 0bs.: Many errors: [mysql] 2019/09/15 11:20:54 packets.go:36: unexpected EOF
 
-4. Python 
-```
-TODO
-```
 
-
-5. Javascript - Nodejs
+4. Javascript - Nodejs
 table with 5 rows:    
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
@@ -131,11 +125,7 @@ Requests/sec:   3901.77
 Transfer/sec:      2.78MB
 ```
 
-6. Rust
-```
-```
-
-7. Clojure:
+5. Clojure:
 table with 5 rows
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
@@ -144,8 +134,18 @@ table with 5 rows
   88215 requests in 30.10s, 47.11MB read
 Requests/sec:   2930.85
 Transfer/sec:      1.57MB
-
 ```
+
+6. Rust
+```
+```
+
+7. Python 
+```
+TODO
+```
+
+
 
 
 |  seq  |  project  |  rows  |  Latency Avg  |  Stdev  |  Max  |  +/- Stdev  |  Req/Sec Avg  |  Stdev  |  Max  |  +/- Stdev  |  requests  |  Requests/sec  |  Transfer/sec  |
@@ -156,8 +156,8 @@ Transfer/sec:      1.57MB
 |   |        | 5 | 73.21ms | 20.13ms | 259.69ms | 69.99% | 453.50 | 45.83 | 595.00 | 72.57% | 162002 requests in 30.05s, 1.20GB read | 5390.62 | 40.83MB |
 | 3 | Golang | 5 | 240.66ms | 409.91ms | 2.00s | 84.76% | 199.88 | 403.17 | 3.98k | 93.64% | 60682 requests in 30.08s, 29.43MB read | 2017.05 | 0.98MB |
 |   |        | 106 | 192.28ms | 335.69ms | 2.00s | 87.60% | 303.46 | 330.86 | 1.82k | 87.25% | 9431 requests in 30.06s, 675.91MB read | 3307.67 | 22.48MB |
-| 5 | Javascript | 5 | 98.78ms | 8.77ms | 342.61ms | 93.23% | 331.17 | 43.07 | 590.00 | 90.92% |   117415 requests in 30.09s, 83.65MB read | 3901.77 | 2.78MB |
-| 7 | Clojure | 5 | 134.84ms | 72.00ms | 1.17s | 83.26% | 251.85 | 50.83 | 0.88k | 76.66% | 88215 in 30.10s, 47.11MB read | 2930.85 | 1.57MB |
+| 4 | Javascript | 5 | 98.78ms | 8.77ms | 342.61ms | 93.23% | 331.17 | 43.07 | 590.00 | 90.92% |   117415 requests in 30.09s, 83.65MB read | 3901.77 | 2.78MB |
+| 5 | Clojure | 5 | 134.84ms | 72.00ms | 1.17s | 83.26% | 251.85 | 50.83 | 0.88k | 76.66% | 88215 in 30.10s, 47.11MB read | 2930.85 | 1.57MB |
 
 
         
