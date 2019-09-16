@@ -23,7 +23,7 @@ the endpoints will return something like this:
 ```
 
 ### Memory usage
-| seq | language | app | initial | with load |
+| seq | language | app | initial | overloaded |
 | --- | --- | --- | --- | ---  |
 | 1 | kotlin + springboot | clientsb |  519 MB | 672.4 MB |
 | 2 | elixir + phoenix    | clientex |  51 MB  | 386.3 MB |
