@@ -39,12 +39,9 @@ the endpoints will return something like this:
 | 4 | Javascript | 5 | 98.78ms | 8.77ms | 342.61ms | 93.23% | 331.17 | 43.07 | 590.00 | 90.92% |   117415 requests in 30.09s, 83.65MB read | 3901.77 | 2.78MB |
 | 5 | Clojure | 5 | 134.84ms | 72.00ms | 1.17s | 83.26% | 251.85 | 50.83 | 0.88k | 76.66% | 88215 in 30.10s, 47.11MB read | 2930.85 | 1.57MB |
 
-
-
 # WRK on console
 
 1. SpringBoot + Kotlin:    
-
 table with 5 rows:    
 ```   
 Thread Stats   Avg      Stdev     Max   +/- Stdev   
@@ -64,9 +61,7 @@ table with 106 rows:
   Socket errors: connect 0, read 0, write 0, timeout 97
 Requests/sec:   2603.93
 Transfer/sec:     17.12MB
-
 ```
-
 2. Elixir + Phoenix:   
 table with 5 rows:   
 ```
@@ -86,9 +81,7 @@ table with 106 rows:
   162002 requests in 30.05s, 1.20GB read
 Requests/sec:   5390.62
 Transfer/sec:     40.83MB
-
 ```
-
 3. Golang + Gorilla Mux:   
 table with 5 rows:    
 ```
@@ -100,7 +93,6 @@ table with 5 rows:
   Non-2xx or 3xx responses: 8859
 Requests/sec:   2017.05
 Transfer/sec:      0.98MB
-
 ```
 table with 106 rows:   
 ```
@@ -112,11 +104,8 @@ table with 106 rows:
   Non-2xx or 3xx responses: 29513
 Requests/sec:   3307.67
 Transfer/sec:     22.48MB
-
 ```
 0bs.: Many errors: [mysql] 2019/09/15 11:20:54 packets.go:36: unexpected EOF
-
-
 4. Javascript - Nodejs
 table with 5 rows:    
 ```
@@ -127,7 +116,6 @@ table with 5 rows:
 Requests/sec:   3901.77
 Transfer/sec:      2.78MB
 ```
-
 5. Clojure:
 table with 5 rows
 ```
@@ -138,20 +126,10 @@ table with 5 rows
 Requests/sec:   2930.85
 Transfer/sec:      1.57MB
 ```
-
 6. Rust
 ```
 ```
-
 7. Python 
 ```
 TODO
 ```
-
-
-
-
-
-
-
-        
