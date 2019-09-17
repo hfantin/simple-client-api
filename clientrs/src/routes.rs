@@ -2,7 +2,7 @@ use diesel::{self, prelude::*};
 
 use rocket_contrib::json::Json;
 
-use crate::models::{ClientView};
+use crate::models::{Client};
 use crate::schema;
 use crate::DbConn;
 
@@ -13,7 +13,7 @@ pub fn index() -> &'static str {
 
 
 #[get("/v1/clients")]
-pub fn list_clients_views(conn: DbConn) -> Result<Json<Vec<ClientView>>, String> {
+pub fn list_clients_views(conn: DbConn) -> Result<Json<Vec<Client>>, String> {
     use crate::schema::clients::dsl::*;
 
     clients.load(&conn.0).map_err(|err| -> String {

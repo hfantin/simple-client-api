@@ -17,7 +17,7 @@ pub mod models;
 pub mod routes;
 
 #[database("test")]
-pub struct DbConn(diesel::MysqlConnection);
+pub struct DbConn(diesel::PgConnection);
 
 fn main() {
       rocket::ignite()

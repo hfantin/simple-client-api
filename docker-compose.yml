@@ -1,15 +1,25 @@
 version: "3.7"
 services:
-  mysql:
-    image: mysql:5.7
+#  mysql:
+#    image: mysql:5.7
+#    ports:
+#      - 3306:3306
+#    volumes:
+#      - .docker/mysql/data:/var/lib/mysql
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=root
+#      - MYSQL_USER=guest
+#      - MYSQL_PASSWORD=guest
+#      - MYSQL_DATABASE=test
+#      - TZ=Brazil/East
+  database:
+    image: postgres:9.5
     ports:
-      - 3306:3306
-    volumes:
-      - .docker/mysql/data:/var/lib/mysql
+      - 5432:5432
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_USER=guest
-      - MYSQL_PASSWORD=guest
-      - MYSQL_DATABASE=test
-      - TZ=Brazil/East
+      POSTGRES_USER: guest
+      POSTGRES_PASSWORD: guest
+      POSTGRES_DB:       test
+    volumes:
+      - .docker/postgres/data:/var/lib/postgresql/data
 
