@@ -1,7 +1,7 @@
 # Simple client api - comparation between multiple languages
 
 1. Springboot wrk -t12 -c400 -d30s http://localhost:5000/v1/clients
-2. Elixir wrk -t12 -c400 -d30s http://localhost:4000/api/clients
+2. Elixir wrk -t12 -c400 -d30s http://localhost:4000/v1/clients
 3. Golang wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
 4. Nodejs wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
 5. Clojure wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
@@ -90,6 +90,17 @@ table with 106 rows:
 Requests/sec:   5390.62
 Transfer/sec:     40.83MB
 ```
+table with 100 rows:    
+```
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    72.10ms   17.01ms 135.77ms   63.69%
+    Req/Sec   459.08     41.55   660.00     74.06%
+  164649 requests in 30.06s, 1.15GB read
+Requests/sec:   5477.29
+Transfer/sec:     39.10MB
+
+```
+
 3. Golang + Gorilla Mux:   
 ```
 table with 100 rows:   

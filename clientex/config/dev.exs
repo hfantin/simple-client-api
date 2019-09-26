@@ -7,7 +7,7 @@ config :clientex, Clientex.Repo,
   database: "test",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  pool_size: 20
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -18,7 +18,7 @@ config :clientex, Clientex.Repo,
 config :clientex, ClientexWeb.Endpoint,
   http: [port: 4000],
   debug_errors: false,
-  code_reloader: true,
+  code_reloader: false,
   check_origin: false,
   watchers: []
 

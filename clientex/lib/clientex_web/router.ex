@@ -5,7 +5,7 @@ defmodule ClientexWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", ClientexWeb do
+  scope "/v1", ClientexWeb do
     pipe_through :api
     resources "/clients", ClientController, except: [:new, :edit]
   end
