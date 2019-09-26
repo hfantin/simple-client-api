@@ -6,7 +6,7 @@
 4. Nodejs wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
 5. Clojure wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
 6. Rust    TODO
-7. Python  TODO
+7. Python wrk -t12 -c400 -d30s http://localhost:9000/v1/clients
 
 the endpoints will return something like this:   
 ```
@@ -34,7 +34,7 @@ the endpoints will return something like this:
 | 5 | clojure             | clojure_rest_api | 221.1 MB | 221.5 MB |
 |   | clojure subprocess  |   | 355.2 MB | 414.9 MB |
 | 6 | rust                | TODO |  |  |
-| 7 | python              | TODO |  |  |
+| 7 | python              | clientpy | 23.1mb | 29.9mb |
 
  ### WRK results - 12 threads and 400 http connections
 |   |  project  |  rows  |  Latency Avg  |  Stdev  |  Max  |  +/- Stdev  |  Req/Sec Avg  |  Stdev  |  Max  |  +/- Stdev  |  requests  |  Requests/sec  |  Transfer/sec  |
@@ -127,5 +127,12 @@ Transfer/sec:      1.57MB
 ```
 7. Python 
 ```
-TODO
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     1.69s   229.77ms   1.99s    93.43%
+    Req/Sec    12.87      9.81    70.00     73.47%
+  2495 requests in 30.09s, 21.92MB read
+  Socket errors: connect 0, read 58, write 0, timeout 120
+Requests/sec:     82.91
+Transfer/sec:    745.78KB
+
 ```
