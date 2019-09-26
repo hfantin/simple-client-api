@@ -15,6 +15,7 @@ extern crate serde_derive;
 pub mod cors;
 pub mod models;
 pub mod routes;
+pub mod schema;
 
 #[database("test")]
 pub struct DbConn(diesel::PgConnection);
@@ -23,7 +24,7 @@ fn main() {
       rocket::ignite()
         .mount("/", routes![
             routes::index,
-            routes::list_clients_views,
+            routes::list_cli,
         ])
         .attach(DbConn::fairing())
         .attach(cors::CorsFairing)
