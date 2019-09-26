@@ -30,7 +30,7 @@ func (a *App) Initialize(user, password, dbname string) {
 	fmt.Println(" / /___/ / /  __/ / / / /_   / /_/ / /_/ / ")
 	fmt.Println("/_____/_/_/____/_/ /_/ __/   _____/ ____/ ")
 	fmt.Println("")
-	fmt.Println("connecting to database...")
+	log.Println("connecting to database...")
 	connectionString := fmt.Sprintf("%s:%s@/%s", user, password, dbname)
 	var err error
 	a.DB, err = sql.Open("mysql", connectionString)
@@ -40,14 +40,15 @@ func (a *App) Initialize(user, password, dbname string) {
 	a.DB.SetMaxOpenConns(10)
 	a.DB.SetMaxIdleConns(5)
 	// a.DB.SetConnMaxLifetime(1000)
-	fmt.Println("creating routes...")
+	log.Println("creating routes...")
 	a.Router = mux.NewRouter()
 	a.initializeRoutes()
-	fmt.Println("ready!")
 }
 
 func (a *App) Run(addr string) {
+	log.Println("Starting server on port " + addr)
 	log.Fatal(http.ListenAndServe(addr, a.Router))
+
 }
 
 func (app *App) getClient(w http.ResponseWriter, r *http.Request) {
