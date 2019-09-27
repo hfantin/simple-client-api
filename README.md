@@ -33,7 +33,7 @@ the endpoints will return something like this:
 | 4 | javascript + nodejs | clientjs | 36.8 MB | 36.8 MB |
 | 5 | clojure             | clojure_rest_api | 221.1 MB | 221.5 MB |
 |   | clojure subprocess  |   | 355.2 MB | 414.9 MB |
-| 6 | rust                | TODO |  |  |
+| 6 | rust                | clientrs | 9.4mb | 9.4mb |
 | 7 | python              | clientpy | 23.1mb | 29.9mb |
 
  ### WRK results - 12 threads and 400 http connections
