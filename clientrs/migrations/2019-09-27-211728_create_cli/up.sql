@@ -1,0 +1,6 @@
+CREATE TABLE public.cli (
+	id SERIAL PRIMARY KEY,
+	"name" VARCHAR NOT NULL,
+	birth_date VARCHAR NOT NULL, --date NOT NULL,
+	email VARCHAR NOT NULL
+);

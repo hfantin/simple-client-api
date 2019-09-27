@@ -5,7 +5,7 @@
 3. Golang wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
 4. Nodejs wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
 5. Clojure wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
-6. Rust    TODO
+6. Rust    wrk -t12 -c400 -d30s http://localhost:9001/v1/clients
 7. Python wrk -t12 -c400 -d30s http://localhost:9000/v1/clients
 
 the endpoints will return something like this:   
@@ -134,9 +134,19 @@ Requests/sec:   2930.85
 Transfer/sec:      1.57MB
 ```
 6. Rust
+table with 100 rows
 ```
+ Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    17.78ms   61.98ms   1.68s    98.42%
+    Req/Sec     1.04k   660.48     2.85k    58.94%
+  366504 requests in 30.09s, 2.39GB read
+  Socket errors: connect 0, read 366500, write 0, timeout 13
+Requests/sec:  12179.52
+Transfer/sec:     81.49MB
+
 ```
 7. Python 
+table with 100 rows
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency     1.69s   229.77ms   1.99s    93.43%

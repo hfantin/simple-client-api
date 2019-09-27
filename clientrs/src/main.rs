@@ -1,32 +1,22 @@
-#![feature(proc_macro_hygiene, decl_macro)]
-
-extern crate chrono;
-#[macro_use]
-extern crate diesel;
+#![feature(decl_macro, proc_macro_hygiene)]
 #[macro_use]
 extern crate rocket;
 #[macro_use]
+extern crate diesel;
+extern crate dotenv;
+extern crate r2d2;
+extern crate r2d2_diesel;
 extern crate rocket_contrib;
-extern crate serde;
-extern crate serde_json;
 #[macro_use]
 extern crate serde_derive;
 
-pub mod cors;
-pub mod models;
-pub mod routes;
-pub mod schema;
+use dotenv::dotenv;
 
-#[database("test")]
-pub struct DbConn(diesel::PgConnection);
+mod connection;
+mod client;
+mod schema;
 
 fn main() {
-      rocket::ignite()
-        .mount("/", routes![
-            routes::index,
-            routes::list_cli,
-        ])
-        .attach(DbConn::fairing())
-        .attach(cors::CorsFairing)
-        .launch();
+    dotenv().ok();
+    client::router::create_routes();
 }
