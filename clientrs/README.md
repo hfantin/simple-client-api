@@ -2,7 +2,8 @@
 - Rust with Rocket and Diesel
 
 based on [this article](https://cprimozic.net/blog/rust-rocket-cloud-run/)
-https://lankydan.dev/2018/05/20/creating-a-rusty-rocket-fuelled-with-diesel
+[other](https://lankydan.dev/2018/05/20/creating-a-rusty-rocket-fuelled-with-diesel)
+[rust pg](https://lankydan.dev/2018/05/20/creating-a-rusty-rocket-fuelled-with-diesel)
 
 
 # Instalation

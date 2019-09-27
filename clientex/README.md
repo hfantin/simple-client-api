@@ -41,3 +41,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 # Run production
 [deployment](https://hexdocs.pm/phoenix/deployment.html)
+
+
+# Links
+[elixir performance](https://medium.com/@ron.arts/optimizing-elixir-phoenix-performance-a50f7c92b9e4)
