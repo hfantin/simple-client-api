@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"database/sql"
@@ -10,6 +10,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
+	"github.com/hfantin/clientgo/model"
 )
 
 type App struct {
@@ -45,10 +46,9 @@ func (a *App) Initialize(user, password, dbname string) {
 	a.initializeRoutes()
 }
 
-func (a *App) Run(addr string) {
+func (app *App) Run(addr string) {
 	log.Println("Starting server on port " + addr)
-	log.Fatal(http.ListenAndServe(addr, a.Router))
-
+	log.Fatal(http.ListenAndServe(addr, app.Router))
 }
 
 func (app *App) getClient(w http.ResponseWriter, r *http.Request) {
@@ -58,8 +58,8 @@ func (app *App) getClient(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusBadRequest, "Invalid client ID")
 		return
 	}
-	u := client{ID: id}
-	if err := u.getClient(app.DB); err != nil {
+	client := model.Client{ID: id}
+	if err := client.GetClient(app.DB); err != nil {
 		switch err {
 		case sql.ErrNoRows:
 			respondWithError(w, http.StatusNotFound, "Client not found")
@@ -68,7 +68,7 @@ func (app *App) getClient(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	respondWithJSON(w, http.StatusOK, u)
+	respondWithJSON(w, http.StatusOK, client)
 }
 
 func (app *App) getClients(w http.ResponseWriter, r *http.Request) {
@@ -80,7 +80,7 @@ func (app *App) getClients(w http.ResponseWriter, r *http.Request) {
 	if start < 0 {
 		start = 0
 	}
-	clients, err := getClients(app.DB, start, count)
+	clients, err := model.GetClients(app.DB, start, count)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
@@ -89,7 +89,7 @@ func (app *App) getClients(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *App) getAllClients(w http.ResponseWriter, r *http.Request) {
-	clients, err := getAllClients(app.DB)
+	clients, err := model.GetAllClients(app.DB)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return

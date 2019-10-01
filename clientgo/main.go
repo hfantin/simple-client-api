@@ -1,7 +1,9 @@
 package main
 
+import "github.com/hfantin/clientgo/app"
+
 func main() {
-	a := App{}
-	a.Initialize("guest", "guest", "test")
-	a.Run(":3000")
+	app := app.App{}
+	app.Initialize("guest", "guest", "test")
+	app.Run(":3000")
 }
