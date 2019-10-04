@@ -1,12 +1,12 @@
 # Simple client api - comparation between multiple languages
 
-1. Springboot wrk -t12 -c400 -d30s http://localhost:5000/v1/clients
-2. Elixir wrk -t12 -c400 -d30s http://localhost:4000/v1/clients
-3. Golang wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
-4. Nodejs wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
-5. Clojure wrk -t12 -c400 -d30s http://localhost:3000/v1/clients
-6. Rust    wrk -t12 -c400 -d30s http://localhost:9001/v1/clients
-7. Python wrk -t12 -c400 -d30s http://localhost:9000/v1/clients
+1. Kotlin+Springboot http://localhost:5000/v1/clients
+2. Elixir  http://localhost:4000/v1/clients
+3. Golang  http://localhost:3000/v1/clients
+4. Nodejs  http://localhost:3000/v1/clients
+5. Clojure http://localhost:3000/v1/clients
+6. Rust    http://localhost:9001/v1/clients
+7. Python  http://localhost:9000/v1/clients
 
 the endpoints will return something like this:   
 ```
@@ -36,22 +36,29 @@ the endpoints will return something like this:
 | 6 | rust                | clientrs | 9.4mb | 9.4mb |
 | 7 | python              | clientpy | 23.1mb | 29.9mb |
 
- ### WRK results - 12 threads and 400 http connections
-|   |  project  |  rows  |  Latency Avg  |  Stdev  |  Max  |  +/- Stdev  |  Req/Sec Avg  |  Stdev  |  Max  |  +/- Stdev  |  requests  |  Requests/sec  |  Transfer/sec  |
-|---|---|---|---|---|----|---|---|---|---|---|---|---|---|
-| 1 | Springboot | 5 | 83.22ms | 158.97ms | 2.00s | 93.98% | 337.30 | 101.43 | 595.00 | 69.84% | 118344 in 30.10s, 53.72MB read | 3932.11 | 1.78MB |
-|   |            | 106 | 126.71ms | 224.67ms | 2.00s | 93.26% | 224.40 | 73.44 | 414.00 | 67.41% | 78327 requests in 30.08s, 515.05MB read | 2603.93 | 17.12MB |
-| 2 | Elixir | 5 | 25.38ms | 5.14ms | 81.21ms | 72.23% | 1.31k | 91.74 | 1.78k | 78.83% | 468782 requests in 30.09s, 119.45MB read | 15577.89 | 3.97MB |
-|   |        | 106 | 73.21ms | 20.13ms | 259.69ms | 69.99% | 453.50 | 45.83 | 595.00 | 72.57% | 162002 requests in 30.05s, 1.20GB read | 5390.62 | 40.83MB |
-| 3 | Golang | 100 | 93.79ms | 163.38ms | 1.98s | 88.47% | 0.99k | 179.00 | 1.74k | 67.52% | 355362 requests in 30.09s, 3.14GB read | 11811.47 | 106,75 |
-| 4 | Javascript | 5 | 98.78ms | 8.77ms | 342.61ms | 93.23% | 331.17 | 43.07 | 590.00 | 90.92% |   117415 requests in 30.09s, 83.65MB read | 3901.77 | 2.78MB |
-| 5 | Clojure | 5 | 134.84ms | 72.00ms | 1.17s | 83.26% | 251.85 | 50.83 | 0.88k | 76.66% | 88215 in 30.10s, 47.11MB read | 2930.85 | 1.57MB |
+
+### wrk -t12 -c400 -d30s http://localhost:PORT/v1/clients - 5 rows
+|     | project     | Latency Avg | Stdev    | Max      | +/- Stdev | Req/Sec Avg | Stdev  | Max    | +/- Stdev | requests  |  Readed    | Requests/sec | Transfer/sec |
+| --- | ----------- | ----------- | -------- | -------- | --------- | ----------- | ------ | ------ | --------- | --------- |  ----------| ------------ | ------------ |
+| 1   | Kotlin      | 83.22ms     | 158.97ms | 2.00s    | 93.98%    | 337.30      | 101.43 | 595.00 | 69.84%    | 118344    |  53.72MB   | 3932.11      | 1.78MB       |
+| 2   | Elixir      | 25.38ms     | 5.14ms   | 81.21ms  | 72.23%    | 1.31k       | 91.74  | 1.78k  | 78.83%    | 468782    |  119.45MB  | 15577.89     | 3.97MB       |
+| 4   | Javascript  | 98.78ms     | 8.77ms   | 342.61ms | 93.23%    | 331.17      | 43.07  | 590.00 | 90.92%    | 117415    |  83.65MB   | 3901.77      | 2.78MB       |
+| 5   | Clojure     | 134.84ms    | 72.00ms  | 1.17s    | 83.26%    | 251.85      | 50.83  | 0.88k  | 76.66%    | 88215     |  47.11MB   | 2930.85      | 1.57MB       |
+
+### wrk -t12 -c400 -d30s http://localhost:PORT/v1/clients - 100 rows 
+|     | project     | Latency Avg | Stdev    | Max      | +/- Stdev | Req/Sec Avg | Stdev  | Max    | +/- Stdev | requests  |  Readed    | Requests/sec | Transfer/sec |
+| --- | ----------- | ----------- | -------- | -------- | --------- | ----------- | ------ | ------ | --------- | --------- |  ----------| ------------ | ------------ |
+| 2   | Kotlin      | 126.71ms    | 224.67ms | 2.00s    | 93.26%    | 224.40      | 73.44  | 414.00 | 67.41%    | 78327     |  515.05MB  | 2603.93      | 17.12MB      |
+| 2   | Elixir      | 73.21ms     | 20.13ms  | 259.69ms | 69.99%    | 453.50      | 45.83  | 595.00 | 72.57%    | 162002    |  1.20GB    | 5390.62      | 40.83MB      |
+| 3   | Golang      | 93.79ms     | 163.38ms | 1.98s    | 88.47%    | 0.99k       | 179.00 | 1.74k  | 67.52%    | 355362    |  3.14GB    | 11811.47     | 106,75       |
+| 6   | Rust        | 17.78ms     | 61.98ms  | 1.68s    | 98.42%    | 1.04k       | 660.48 | 2.85k  | 58.94%    | 366504    |  2.39GB    | 12179.52     | 81.49MB      |
+| 7   | Python      | 1.69s       | 229.77ms | 1.99s    | 93.43%    | 12.87       | 9.81   | 70.00  | 73.47%    | 2495      |  21.92MB   | 82.91        | 745.78KB     |
+
 
 # WRK on console
 
 1. SpringBoot + Kotlin:   
-
-5 rows:     
+5 rows:   
 ```   
 Thread Stats   Avg      Stdev     Max   +/- Stdev   
     Latency    83.22ms  158.97ms   2.00s    93.98%   
@@ -61,7 +68,7 @@ Thread Stats   Avg      Stdev     Max   +/- Stdev
 Requests/sec:   3932.11   
 Transfer/sec:      1.78MB   
 ```
-106 rows:         
+106 rows:   
 ```
    Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency   126.71ms  224.67ms   2.00s    93.26%
@@ -82,7 +89,7 @@ Transfer/sec:     17.12MB
 Requests/sec:  15577.89
 Transfer/sec:      3.97MB
 ```
-106 rows:    
+106 rows:       
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency    73.21ms   20.13ms 259.69ms   69.99%
@@ -101,9 +108,8 @@ Requests/sec:   5477.29
 Transfer/sec:     39.10MB
 
 ```
-
 3. Golang + Gorilla Mux:   
-100 rows:       
+100 rows:   
 ```
  Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency    93.79ms  163.38ms   1.98s    88.47%
@@ -112,7 +118,7 @@ Transfer/sec:     39.10MB
 Requests/sec:  11811.47
 Transfer/sec:    106.75MB
 ```
-4. Javascript - Nodejs
+4. Javascript - Nodejs   
 5 rows:    
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
@@ -122,8 +128,8 @@ Transfer/sec:    106.75MB
 Requests/sec:   3901.77
 Transfer/sec:      2.78MB
 ```
-5. Clojure:
-5 rows
+5. Clojure:   
+5 rows   
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency   134.84ms   72.00ms   1.17s    83.26%
@@ -132,8 +138,8 @@ Transfer/sec:      2.78MB
 Requests/sec:   2930.85
 Transfer/sec:      1.57MB
 ```
-6. Rust
-100 rows
+6. Rust   
+100 rows   
 ```
  Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency    17.78ms   61.98ms   1.68s    98.42%
@@ -143,8 +149,8 @@ Transfer/sec:      1.57MB
 Requests/sec:  12179.52
 Transfer/sec:     81.49MB
 ```
-7. Python 
-100 rows
+7. Python   
+100 rows   
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency     1.69s   229.77ms   1.99s    93.43%
