@@ -49,8 +49,9 @@ the endpoints will return something like this:
 
 # WRK on console
 
-1. SpringBoot + Kotlin:    
-table with 5 rows:    
+1. SpringBoot + Kotlin:   
+
+5 rows:     
 ```   
 Thread Stats   Avg      Stdev     Max   +/- Stdev   
     Latency    83.22ms  158.97ms   2.00s    93.98%   
@@ -60,7 +61,7 @@ Thread Stats   Avg      Stdev     Max   +/- Stdev
 Requests/sec:   3932.11   
 Transfer/sec:      1.78MB   
 ```
-table with 106 rows:   
+106 rows:         
 ```
    Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency   126.71ms  224.67ms   2.00s    93.26%
@@ -71,7 +72,7 @@ Requests/sec:   2603.93
 Transfer/sec:     17.12MB
 ```
 2. Elixir + Phoenix:   
-table with 5 rows:   
+5 rows:   
 ```
    Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency    25.38ms    5.14ms  81.21ms   72.23%
@@ -81,7 +82,7 @@ table with 5 rows:
 Requests/sec:  15577.89
 Transfer/sec:      3.97MB
 ```
-table with 106 rows:    
+106 rows:    
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency    73.21ms   20.13ms 259.69ms   69.99%
@@ -90,7 +91,7 @@ table with 106 rows:
 Requests/sec:   5390.62
 Transfer/sec:     40.83MB
 ```
-table with 100 rows:    
+100 rows:    
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency    72.10ms   17.01ms 135.77ms   63.69%
@@ -102,8 +103,7 @@ Transfer/sec:     39.10MB
 ```
 
 3. Golang + Gorilla Mux:   
-```
-table with 100 rows:   
+100 rows:       
 ```
  Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency    93.79ms  163.38ms   1.98s    88.47%
@@ -112,9 +112,8 @@ table with 100 rows:
 Requests/sec:  11811.47
 Transfer/sec:    106.75MB
 ```
-0bs.: Many errors: [mysql] 2019/09/15 11:20:54 packets.go:36: unexpected EOF
 4. Javascript - Nodejs
-table with 5 rows:    
+5 rows:    
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency    98.78ms    8.77ms 342.61ms   93.23%
@@ -124,7 +123,7 @@ Requests/sec:   3901.77
 Transfer/sec:      2.78MB
 ```
 5. Clojure:
-table with 5 rows
+5 rows
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency   134.84ms   72.00ms   1.17s    83.26%
@@ -134,7 +133,7 @@ Requests/sec:   2930.85
 Transfer/sec:      1.57MB
 ```
 6. Rust
-table with 100 rows
+100 rows
 ```
  Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency    17.78ms   61.98ms   1.68s    98.42%
@@ -143,10 +142,9 @@ table with 100 rows
   Socket errors: connect 0, read 366500, write 0, timeout 13
 Requests/sec:  12179.52
 Transfer/sec:     81.49MB
-
 ```
 7. Python 
-table with 100 rows
+100 rows
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency     1.69s   229.77ms   1.99s    93.43%
@@ -155,5 +153,4 @@ table with 100 rows
   Socket errors: connect 0, read 58, write 0, timeout 120
 Requests/sec:     82.91
 Transfer/sec:    745.78KB
-
 ```
