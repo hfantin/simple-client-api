@@ -6,15 +6,15 @@ import (
 )
 
 type Client struct {
-	ID        int            `json:"id"`
-	Name      string         `json:"name"`
-	BirthDate string         `json:"bithDate"`
-	Email     sql.NullString `json:"email"`
+	ID        int             `json:"id"`
+	Name      *string         `json:"name"`
+	BirthDate *string         `json:"bithDate"`
+	Email     *sql.NullString `json:"email"`
 }
 
-func (u *Client) GetClient(db *sql.DB) error {
-	statement := fmt.Sprintf("SELECT name, birth_date, email FROM CLI WHERE id=%d", u.ID)
-	return db.QueryRow(statement).Scan(&u.Name, &u.BirthDate, &u.Email)
+func (c *Client) GetClient(db *sql.DB) error {
+	statement := fmt.Sprintf("SELECT name, birth_date, email FROM CLI WHERE id=%d", c.ID)
+	return db.QueryRow(statement).Scan(&c.Name, &c.BirthDate, &c.Email)
 }
 
 func GetAllClients(db *sql.DB) ([]Client, error) {
@@ -26,11 +26,11 @@ func GetAllClients(db *sql.DB) ([]Client, error) {
 	defer rows.Close()
 	clients := []Client{}
 	for rows.Next() {
-		var u Client
-		if err := rows.Scan(&u.ID, &u.Name, &u.BirthDate, &u.Email); err != nil {
+		var c Client
+		if err := rows.Scan(&c.ID, &c.Name, &c.BirthDate, &c.Email); err != nil {
 			return nil, err
 		}
-		clients = append(clients, u)
+		clients = append(clients, c)
 	}
 	return clients, nil
 }
@@ -44,11 +44,11 @@ func GetClients(db *sql.DB, start, count int) ([]Client, error) {
 	defer rows.Close()
 	clients := []Client{}
 	for rows.Next() {
-		var u Client
-		if err := rows.Scan(&u.ID, &u.Name, &u.BirthDate, &u.Email); err != nil {
+		var c Client
+		if err := rows.Scan(&c.ID, &c.Name, &c.BirthDate, &c.Email); err != nil {
 			return nil, err
 		}
-		clients = append(clients, u)
+		clients = append(clients, c)
 	}
 	return clients, nil
 }
