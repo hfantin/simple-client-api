@@ -24,9 +24,9 @@ func GetAllClients(db *sql.DB) ([]Client, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	clients := []Client{}
+	clients := make([]Client, 0)
 	for rows.Next() {
-		var c Client
+		c := Client{}
 		if err := rows.Scan(&c.ID, &c.Name, &c.BirthDate, &c.Email); err != nil {
 			return nil, err
 		}
@@ -42,9 +42,9 @@ func GetClients(db *sql.DB, start, count int) ([]Client, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	clients := []Client{}
+	clients := make([]Client, 0)
 	for rows.Next() {
-		var c Client
+		c := Client{}
 		if err := rows.Scan(&c.ID, &c.Name, &c.BirthDate, &c.Email); err != nil {
 			return nil, err
 		}
