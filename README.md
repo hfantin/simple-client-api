@@ -46,13 +46,15 @@ the endpoints will return something like this:
 | 5   | Clojure     | 134.84ms    | 72.00ms  | 1.17s    | 83.26%    | 251.85      | 50.83  | 0.88k  | 76.66%    | 88215     |  47.11MB   | 2930.85      | 1.57MB       |
 
 ### wrk -t12 -c400 -d30s http://localhost:PORT/v1/clients - 100 rows 
-|     | project     | Latency Avg | Stdev    | Max      | +/- Stdev | Req/Sec Avg | Stdev  | Max    | +/- Stdev | requests  |  Readed    | Requests/sec | Transfer/sec |
-| --- | ----------- | ----------- | -------- | -------- | --------- | ----------- | ------ | ------ | --------- | --------- |  ----------| ------------ | ------------ |
-| 2   | Kotlin      | 126.71ms    | 224.67ms | 2.00s    | 93.26%    | 224.40      | 73.44  | 414.00 | 67.41%    | 78327     |  515.05MB  | 2603.93      | 17.12MB      |
-| 2   | Elixir      | 73.21ms     | 20.13ms  | 259.69ms | 69.99%    | 453.50      | 45.83  | 595.00 | 72.57%    | 162002    |  1.20GB    | 5390.62      | 40.83MB      |
-| 3   | Golang      | 93.79ms     | 163.38ms | 1.98s    | 88.47%    | 0.99k       | 179.00 | 1.74k  | 67.52%    | 355362    |  3.14GB    | 11811.47     | 106,75       |
-| 6   | Rust        | 17.78ms     | 61.98ms  | 1.68s    | 98.42%    | 1.04k       | 660.48 | 2.85k  | 58.94%    | 366504    |  2.39GB    | 12179.52     | 81.49MB      |
-| 7   | Python      | 1.69s       | 229.77ms | 1.99s    | 93.43%    | 12.87       | 9.81   | 70.00  | 73.47%    | 2495      |  21.92MB   | 82.91        | 745.78KB     |
+|     | project     | Latency Avg | Stdev    | Max      | +/- Stdev | Req/Sec Avg | Stdev  | Max    | +/- Stdev | requests  |  Readed    | Requests/sec | Transfer/sec | mem           |
+| --- | ----------- | ----------- | -------- | -------- | --------- | ----------- | ------ | ------ | --------- | --------- |  ----------| ------------ | ------------ |---------------|
+| 1   | Kotlin      | 114.42ms    | 198.10ms | 2.00s    | 93.90%    | 232.97      | 65.53  | 410.00 | 68.09%    | 81301     |  564.23MB  | 2701.33      | 18.87MB      | 509 ~ 726 MB  |
+| 2   | Elixir      | 68.93ms     | 17.62ms  | 223.57ms | 73.96%    | 485.49      | 49.42  | 2.12k  | 80.97%    | 172680    |  1.21GB    | 5770.42      | 41.20MB      | 50 ~ 317 MB   |
+| 3   | Golang      | 87.20ms     | 144.51ms | 1.38s    | 87.64%    | 1.02k       | 208.93 | 2.46k  | 73.22%    | 361334    |  2.42GB    | 12006.20     | 82.18        | 5.3 ~ 19.4 MB |
+| 4   | Javascript  | 235.96ms    | 19.18ms  | 493.55ms | 92.35%    | 139.36      | 79.06  | 333.00 | 59.07%    | 49300     |  421.92MB  | 1638.45      | 14.02MB      |  35.9 ~ 92 MB |
+| 5   | Clojure     | 157.69ms    | 51.83ms  | 550,22ms | 86.39%    | 203.89      | 48.34  | 530.00 | 78.27%    | 72495     |  581.16MB  | 2410.85      | 19.33MB      |  539 ~ 662 MB |
+| 6   | Rust        | 19.23ms     | 71.06ms  | 1.68s    | 98.14%    | 1.03k       | 580.22 | 2.52k  | 61.22%    | 367449    |  2.49GB    | 11222.90     | 84.88MB      | 9.4 ~ 9.4 MB  |
+| 7   | Python      | 1.64s       | 223.95ms | 1.97s    | 92.12%    | 12.04       | 9.27   | 60.00  | 77.30%    | 2559      |  22.40MB   | 85.13        | 765.76KB     | 23.2 ~ 28,8 MB |
 
 
 # WRK on console
@@ -68,15 +70,15 @@ Thread Stats   Avg      Stdev     Max   +/- Stdev
 Requests/sec:   3932.11   
 Transfer/sec:      1.78MB   
 ```
-106 rows:   
+100 rows:   
 ```
-   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   126.71ms  224.67ms   2.00s    93.26%
-    Req/Sec   224.40     73.44   414.00     67.41%
-  78327 requests in 30.08s, 515.05MB read
-  Socket errors: connect 0, read 0, write 0, timeout 97
-Requests/sec:   2603.93
-Transfer/sec:     17.12MB
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   114.42ms  198.10ms   2.00s    93.90%
+    Req/Sec   232.97     65.53   410.00     68.09%
+  81301 requests in 30.10s, 564.23MB read
+  Socket errors: connect 0, read 0, write 0, timeout 105
+Requests/sec:   2701.33
+Transfer/sec:     18.75MB
 ```
 2. Elixir + Phoenix:   
 5 rows:   
@@ -89,34 +91,26 @@ Transfer/sec:     17.12MB
 Requests/sec:  15577.89
 Transfer/sec:      3.97MB
 ```
-106 rows:       
+100 rows:       
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    73.21ms   20.13ms 259.69ms   69.99%
-    Req/Sec   453.50     45.83   595.00     72.57%
-  162002 requests in 30.05s, 1.20GB read
-Requests/sec:   5390.62
-Transfer/sec:     40.83MB
-```
-100 rows:    
-```
-  Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    72.10ms   17.01ms 135.77ms   63.69%
-    Req/Sec   459.08     41.55   660.00     74.06%
-  164649 requests in 30.06s, 1.15GB read
-Requests/sec:   5477.29
-Transfer/sec:     39.10MB
+    Latency    68.37ms   17.62ms 223.57ms   73.96%
+    Req/Sec   485.49     49.42     2.12k    80.97%
+  173680 requests in 30.10s, 1.21GB read
+Requests/sec:   5770.42
+Transfer/sec:     41.20MB
 
 ```
 3. Golang + Gorilla Mux:   
 100 rows:   
 ```
- Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    93.79ms  163.38ms   1.98s    88.47%
-    Req/Sec     0.99k   179.00     1.74k    67.52%
-  355362 requests in 30.09s, 3.14GB read
-Requests/sec:  11811.47
-Transfer/sec:    106.75MB
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    87.20ms  144.51ms   1.38s    87.64%
+    Req/Sec     1.02k   208.93     2.46k    73.32%
+  361334 requests in 30.10s, 2.42GB read
+Requests/sec:  12006.20
+Transfer/sec:     82.18MB
+
 ```
 4. Javascript - Nodejs   
 5 rows:    
@@ -128,6 +122,16 @@ Transfer/sec:    106.75MB
 Requests/sec:   3901.77
 Transfer/sec:      2.78MB
 ```
+100 rows: 
+```
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   235.96ms   19.18ms 493.55ms   92.35%
+    Req/Sec   139.36     79.06   333.00     59.07%
+  49300 requests in 30.09s, 421.92MB read
+Requests/sec:   1638.45
+Transfer/sec:     14.02MB
+
+```
 5. Clojure:   
 5 rows   
 ```
@@ -138,25 +142,38 @@ Transfer/sec:      2.78MB
 Requests/sec:   2930.85
 Transfer/sec:      1.57MB
 ```
+100 rows: 
+```
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   157.69ms   51.83ms 550.22ms   86.39%
+    Req/Sec   203.89     48.34   530.00     78.27%
+  72495 requests in 30.07s, 581.16MB read
+Requests/sec:   2410.85
+Transfer/sec:     19.33MB
+
+```
+
 6. Rust   
 100 rows   
 ```
- Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    17.78ms   61.98ms   1.68s    98.42%
-    Req/Sec     1.04k   660.48     2.85k    58.94%
-  366504 requests in 30.09s, 2.39GB read
-  Socket errors: connect 0, read 366500, write 0, timeout 13
-Requests/sec:  12179.52
-Transfer/sec:     81.49MB
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    19.23ms   71.06ms   1.68s    98.14%
+    Req/Sec     1.03k   580.22     2.52k    61.22%
+  367449 requests in 30.06s, 2.49GB read
+  Socket errors: connect 0, read 367503, write 0, timeout 32
+Requests/sec:  12222.90
+Transfer/sec:     84.88MB
 ```
 7. Python   
 100 rows   
 ```
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     1.69s   229.77ms   1.99s    93.43%
-    Req/Sec    12.87      9.81    70.00     73.47%
-  2495 requests in 30.09s, 21.92MB read
-  Socket errors: connect 0, read 58, write 0, timeout 120
-Requests/sec:     82.91
-Transfer/sec:    745.78KB
+    Latency     1.64s   223.95ms   1.97s    92.12%
+    Req/Sec    12.04      9.27    60.00     77.30%
+  2559 requests in 30.06s, 22.48MB read
+  Socket errors: connect 0, read 72, write 0, timeout 134
+Requests/sec:     85.13
+Transfer/sec:    765.76KB
+
+
 ```

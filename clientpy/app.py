@@ -3,6 +3,10 @@
 from flask import Flask, jsonify, url_for, make_response, request, abort
 import pymysql
 
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 app = Flask(__name__)
 
 clients = []
@@ -52,4 +56,4 @@ def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 if __name__ == '__main__':
-	app.run(port=9000)
+	app.run(host="0.0.0.0", port=9000, threaded=True)

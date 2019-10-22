@@ -1,5 +1,6 @@
 package com.github.hfantin.client.controllers
 
+import com.github.hfantin.client.model.ClientDto
 import com.github.hfantin.client.services.ClientService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,6 +16,9 @@ class ClientController {
 
     @Autowired
     private lateinit var clientService: ClientService
+
+    @GetMapping("/dto")
+    fun findAllDto() = clientService.findAll().map { client -> ClientDto(client.name, client.birthDate, client.email) }
 
     @GetMapping
     fun findAll() = clientService.findAll()

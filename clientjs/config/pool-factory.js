@@ -13,7 +13,7 @@ const pool = mysql.createPool({
 // });
 
 
-pool.on('release', () => console.log('pool => conexão retornada'));
+//pool.on('release', () => console.log('pool => conexão retornada'));
 
 process.on('SIGINT', () =>
     pool.end(err => {

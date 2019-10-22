@@ -13,6 +13,6 @@ class ClientService {
     @Autowired
     private lateinit var clientRepository: ClientRepository
 
-    fun findAll() = clientRepository.findAll().map { client -> ClientDto(client.name, client.birthDate, client.email) }
+    fun findAll() = clientRepository.findAll()
 
 }

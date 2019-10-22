@@ -6,6 +6,8 @@ logging:
   level:
     root: WARN
 spring:
+  main:
+    lazy-initialization: true
   application:
     name: clientsb
   profiles:
