@@ -12,7 +12,6 @@ defmodule ClientexWeb.ClientView do
 
   def render("client.json", %{client: client}) do
     %{id: client.id,
-      id: client.id,
       name: client.name,
       birth_date: client.birth_date,
       email: client.email}

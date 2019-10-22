@@ -37,6 +37,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 # Run 
 - mix deps.get
 - mix phx.server
+- Production: 
+  MIX_ENV=prod DATABASE_URL=ecto://guest:guest@localhost/test POOL_SIZE=50 SECRET_KEY_BASE=MIX_ENV=prod DATABASE_URL=ecto://guest:guest@localhost/test POOL_SIZE=50 PORT=5000 mix phx.server
 
 
 # Run production
