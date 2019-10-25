@@ -1,0 +1,74 @@
+version: "3.7"
+services:
+  mysql:
+    image: atf.intranet.bb.com.br:5001/mysql:5.7
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=guest
+      - MYSQL_PASSWORD=guest
+      - MYSQL_DATABASE=test
+      - TZ=Brazil/East
+    volumes:
+      - .docker/mysql/data:/var/lib/mysql
+    networks:
+      - tds_net
+  # pg:
+  #   image: atf.intranet.bb.com.br:5001/postgres:9.5
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     POSTGRES_USER: guest
+  #     POSTGRES_PASSWORD: guest
+  #     POSTGRES_DB: test
+  #   volumes:
+  #     - .docker/postgres/data:/var/lib/postgresql/data
+  #   networks:
+  #     - tds_net
+
+  # redis:
+  #   image: atf.intranet.bb.com.br:5001/redis
+  #   hostname: redis
+  #   container_name: redis
+  #   ports:
+  #     - 6379:6379
+  #   volumes:
+  #     - .docker/redis/data/redis:/data
+  #   restart: always
+  #   networks:
+  #     - tds_net
+
+  # API gateway e service discovery
+  gateway:
+    image: atf.intranet.bb.com.br:5001/bb/tsb/tsb-gateway:1.0.9
+    hostname: gateway
+    container_name: gateway
+    ports:
+      - 5555:5555
+    environment:
+      - SERVER_PORT=5555
+      - LOGGING_LEVEL=INFO
+      - PROFILE=default
+      - SERVICE_DISCOVERY_URI=http://service-discovery:8761/eureka/
+    networks:
+      - tds_net
+  service-discovery:
+    image: atf.intranet.bb.com.br:5001/bb/tsb/tsb-service-discovery:0.1.2
+    hostname: service-discovery
+    container_name: service-discovery
+    ports:
+      - 8761:8761
+    environment:
+      - SERVER_PORT=8761
+      - LOGGING_LEVEL=DEBUG
+      - PROFILE=default
+    networks:
+      - tds_net
+networks:
+  tds_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "111.111.10.0/24"

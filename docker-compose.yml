@@ -22,3 +22,20 @@ services:
       POSTGRES_DB:       test
     volumes:
       - .docker/postgres/data:/var/lib/postgresql/data
+  eurekaserver:
+    image: com.github.hfantin/eurekasrv:latest
+    ports:
+      - 8761:8761
+    depends_on:
+      - mysql
+  zuulserver:
+    image: com.github.hfantin/zuulsrv:latest
+    ports:
+      - 5555:5555
+    environment:
+      PROFILE: "default"
+      SERVER_PORT: "5555"
+      EUREKASERVER_URI: "http://eurekaserver:8761/eureka/"
+      EUREKASERVER_PORT: "8761"
+    depends_on:
+      - mysql

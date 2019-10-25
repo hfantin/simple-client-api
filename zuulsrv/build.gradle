@@ -1,0 +1,77 @@
+plugins {
+	id "org.springframework.boot" version "2.1.8.RELEASE"
+	id "io.spring.dependency-management" version "1.0.8.RELEASE"
+	id "com.palantir.docker" version "0.22.1"
+	id 'org.jetbrains.kotlin.jvm' version '1.3.50'
+	id 'org.jetbrains.kotlin.plugin.spring' version '1.3.50'
+}
+
+group = "com.github.hfantin"
+version = "0.0.1-SNAPSHOT"
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+	mavenCentral()
+}
+
+ext{
+	springCloudVersion = "Greenwich.SR2"
+}
+
+dependencies {
+	// kotlin
+	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	// spring cloud
+	implementation("org.springframework.cloud:spring-cloud-starter-config")
+	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+//	implementation("org.springframework.cloud:spring-cloud-starter-gateway")
+	implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
+//	implementation("org.springframework.cloud:spring-cloud-starter-sleuth-zipkin")
+	implementation("org.springframework.cloud:spring-cloud-starter-zipkin")
+	implementation("org.springframework.cloud:spring-cloud-starter-netflix-zuul")
+	implementation("io.jsonwebtoken:jjwt:0.9.1")
+	// JAX-B dependencies for JDK 9+
+	implementation "javax.xml.bind:jaxb-api:2.2.11"
+	implementation "com.sun.xml.bind:jaxb-core:2.2.11"
+	implementation "com.sun.xml.bind:jaxb-impl:2.2.11"
+	implementation "javax.activation:activation:1.1.1"
+	// test
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+compileKotlin {
+	kotlinOptions {
+		freeCompilerArgs = ['-Xjsr305=strict']
+		jvmTarget = JavaVersion.VERSION_1_8
+	}
+}
+
+compileTestKotlin {
+	kotlinOptions {
+		freeCompilerArgs = ['-Xjsr305=strict']
+		jvmTarget = JavaVersion.VERSION_1_8
+	}
+}
+
+dependencyManagement {
+	imports {
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+	}
+}
+
+//processResources {
+//	expand(project.properties)
+//}
+
+springBoot {
+	buildInfo()
+}
+
+docker {
+	dependsOn build
+	name "${project.group}/${jar.archiveBaseName.get()}"
+	files bootJar.archiveFile, "run.sh"
+	buildArgs(['JAR_FILE': "${bootJar.archiveFileName.get()}"])
+}
