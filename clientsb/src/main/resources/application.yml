@@ -6,6 +6,12 @@ logging:
   level:
     root: WARN
 spring:
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        healthCheckInterval: 30s
   main:
     lazy-initialization: true
   application:
@@ -34,3 +40,9 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: validate
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

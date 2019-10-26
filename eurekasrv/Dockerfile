@@ -1,7 +1,4 @@
-FROM openjdk:8-jdk-alpine
-RUN  apk update && apk upgrade && apk add netcat-openbsd
+FROM adoptopenjdk/openjdk11-openj9
 ARG JAR_FILE
 COPY ${JAR_FILE} app.jar
-ADD run.sh run.sh
-RUN chmod +x run.sh
-CMD ./run.sh
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-Xms256m", "-Xmx1G", "-Xshareclasses", "-Xquickstart", "-jar","app.jar"]

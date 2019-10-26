@@ -26,9 +26,7 @@ dependencies {
 	// spring cloud
 	implementation("org.springframework.cloud:spring-cloud-starter-config")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-//	implementation("org.springframework.cloud:spring-cloud-starter-gateway")
 	implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
-//	implementation("org.springframework.cloud:spring-cloud-starter-sleuth-zipkin")
 	implementation("org.springframework.cloud:spring-cloud-starter-zipkin")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-zuul")
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
@@ -61,10 +59,6 @@ dependencyManagement {
 	}
 }
 
-//processResources {
-//	expand(project.properties)
-//}
-
 springBoot {
 	buildInfo()
 }
@@ -72,6 +66,6 @@ springBoot {
 docker {
 	dependsOn build
 	name "${project.group}/${jar.archiveBaseName.get()}"
-	files bootJar.archiveFile, "run.sh"
+	files bootJar.archiveFile
 	buildArgs(['JAR_FILE': "${bootJar.archiveFileName.get()}"])
 }

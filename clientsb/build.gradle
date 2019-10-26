@@ -1,5 +1,5 @@
 plugins {
-	id "org.springframework.boot" version "2.2.0.RELEASE"
+	id "org.springframework.boot" version "2.1.8.RELEASE"
 	id "io.spring.dependency-management" version "1.0.8.RELEASE"
 	id "com.palantir.docker" version "0.22.1"
 	id 'org.jetbrains.kotlin.jvm' version '1.3.50'
@@ -28,10 +28,13 @@ ext {
 
 
 dependencies {
-    //externas
+    //springboot
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-jetty")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    // springcloud
+    implementation("org.springframework.cloud:spring-cloud-starter-consul-all")
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -76,4 +79,12 @@ bootJar {
                 'Implementation-Version': version,
         )
     }
+}
+
+
+docker {
+    dependsOn build
+    name "${project.group}/${jar.archiveBaseName.get()}"
+    files bootJar.archiveFile
+    buildArgs(['JAR_FILE': "${bootJar.archiveFileName.get()}"])
 }
