@@ -71,19 +71,37 @@ services:
     depends_on:
       - mysql
       - consul
-  clientgo:
+  clientsb2:
     image: com.github.hfantin/clientsb:latest
-    container_name: "clientgo"
-    hostname: "clientgo"
+    container_name: "clientsb2"
+    hostname: "clientsb"
     ports:
       - 5001:5001
     environment:
       server_port: 5001
-      consul_host: consul
-      consul_port: 8500
-      datasource_url: jdbc:mysql://mysql:3306/test
-      datasource_username: guest
-      password: guest
+      logging_level_root: INFO
+      spring_cloud_consul_host: consul
+      spring_cloud_consul_port: 8500
+      spring_datasource_url: jdbc:mysql://mysql:3306/test
+      spring_datasource_username: guest
+      spring_datasource_password: guest
     depends_on:
       - mysql
       - consul
+  clientgo:
+    image: clientgov4:latest
+    container_name: "clientgo"
+    hostname: "clientgo"
+    ports:
+      - 5002:5002
+    environment:
+      SERVER_PORT: 5002
+      DB_HOST: mysql:3306
+      DB_USER: guest
+      DB_PASS: guest
+      DB_NAME: test
+    links:
+      - mysql
+    # depends_on:
+    #   - mysql
+    #   - consul

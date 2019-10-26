@@ -5,11 +5,20 @@ function main(){
     for dir in */; do
       echo "> $dir"
       if [[ -e "$dir/Dockerfile" ]]; then
+        echo "aqui tem dockerfile $dir"
         if [[ -e "$dir/build.gradle" ]]; then
-            echo 'building springboot app'
             cd $dir
-            ./gradlew clean build docker
+            echo 'building springboot app'
+            # ./gradlew clean build docker
             cd ..
+        fi
+        if [[ -e "$dir/main.go" ]]; then
+          cd $dir
+          echo 'building golang app'
+          # go build -o main .
+          go build
+          docker build -t "clientgov4" .
+          cd ..
         fi
       fi
     done

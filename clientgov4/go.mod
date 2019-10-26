@@ -9,6 +9,8 @@ require (
 	github.com/go-logfmt/logfmt v0.4.0 // indirect
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/gorilla/mux v1.7.3
+	github.com/hashicorp/consul/api v1.2.0
+	github.com/joho/godotenv v1.3.0
 	github.com/lib/pq v1.2.0
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/openzipkin/zipkin-go v0.2.2
