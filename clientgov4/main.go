@@ -91,7 +91,7 @@ func handleSigterm() {
 func startWebServer() {
 	printLogo()
 	// Default values
-	port := "3000"
+	port := "5000"
 	host := "localhost"
 	user := "guest"
 	pass := "guest"
@@ -106,7 +106,6 @@ func startWebServer() {
 	user = os.Getenv("DB_USER")
 	pass = os.Getenv("DB_PASS")
 	name = os.Getenv("DB_NAME")
-	log.Println("db_host=", host)
 	// initialize db connection
 	db := db.Connect(host, user, pass, name)
 	// initialize router

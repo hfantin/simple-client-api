@@ -11,7 +11,7 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :clientex, ClientexWeb.Endpoint,
-  url: [host: "clientex.com", port: 80]
+  url: [host: "clientex.com", port: 5000]
   # ,
   # cache_static_manifest: "priv/static/cache_manifest.json"
 

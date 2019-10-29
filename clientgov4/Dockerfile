@@ -1,6 +1,9 @@
-FROM ubuntu
-RUN mkdir /opt/app
-ADD clientgo /opt/app/clientgo
-RUN chmod +x /opt/app/clientgo
+FROM alpine
+RUN apk add --update ca-certificates
 WORKDIR /opt/app
-CMD ["/opt/app/clientgo"]
+ADD clientgo clientgo
+RUN chmod +x clientgo
+# CMD ["clientgo"]
+# CMD ["pwd"]
+# CMD ["ls"]
+CMD [ "/opt/app/clientgo" ]
