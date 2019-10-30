@@ -177,3 +177,42 @@ Transfer/sec:    765.76KB
 
 
 ```
+
+# Links
+
+[rust rocket clour](https://cprimozic.net/blog/rust-rocket-cloud-run/)   
+[golang connection pool](https://developpaper.com/implementation-of-golang-sql-connection-pool/)   
+[golang logs](https://www.datadoghq.com/blog/go-logging/)   
+[nodejs+docker](https://dev.to/alex_barashkov/using-docker-for-nodejs-in-development-and-production-3cgp)    
+[elixir+docker](https://pspdfkit.com/blog/2018/how-to-run-your-phoenix-application-with-docker/)   
+
+
+
+    https://github.com/op/go-logging - smaller than the other here
+    https://github.com/sirupsen/logrus - used in many popular projects such as Docker
+    https://github.com/inconshreveable/log15
+    https://github.com/golang/glog - from Google, implementation of their C++ glog library in Go
+    https://github.com/go-kit/kit/tree/master/log focused on "structured logging" which is better for tools to consume
+    https://github.com/uber-go/zap - "blazing fast"
+
+
+
+# Proxy settings
+- cargo:    
+
+on .cargo/config:   
+
+```
+[http]
+proxy = "http://proxy.example.com:8000/"
+
+[https]
+proxy = "https://proxy.example.com:8000/"
+```
+and on command line:   
+
+```
+export HTTP_PROXY=http://proxy.example.com:8000/
+export HTTPS_PROXY=https://proxy.example.com:8000/
+export FTP_PROXY=ftp://proxy.example.com:8000/
+```

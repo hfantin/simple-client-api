@@ -15,7 +15,7 @@ spring:
   main:
     lazy-initialization: true
   application:
-    name: clientsb
+    name: clients
   profiles:
     active: default
   output:

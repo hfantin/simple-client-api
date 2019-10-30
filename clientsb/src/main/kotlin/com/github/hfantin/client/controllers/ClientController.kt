@@ -1,5 +1,6 @@
 package com.github.hfantin.client.controllers
 
+import com.github.hfantin.client.entities.Client
 import com.github.hfantin.client.model.ClientDto
 import com.github.hfantin.client.services.ClientService
 import org.slf4j.LoggerFactory
@@ -21,7 +22,10 @@ class ClientController {
     fun findAllDto() = clientService.findAll().map { client -> ClientDto(client.name, client.birthDate, client.email) }
 
     @GetMapping
-    fun findAll() = clientService.findAll()
+    fun findAll(): MutableList<Client> {
+        logger.info("findAll clients")
+        return clientService.findAll()
+    }  
 
 
 }

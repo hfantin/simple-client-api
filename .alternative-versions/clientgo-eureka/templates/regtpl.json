@@ -1,0 +1,27 @@
+{
+  "instance": {
+    "instanceId": "${instanceId}",
+    "hostName": "${ipAddress}",
+    "app": "${appName}",
+    "ipAddr": "${ipAddress}",
+    "vipAddress": "${appName}",
+    "secureVipAddress": "${appName}",
+    "status": "UP",
+    "port": {
+      "$": "${port}",
+      "@enabled": true
+    },
+    "securePort": {
+      "$": 443,
+      "@enabled": false
+    },
+    "homePageUrl": "http://${ipAddress}:${port}",
+    "statusPageUrl": "http://${ipAddress}:${port}/actuator/info",
+    "healthCheckUrl": "http://${ipAddress}:${port}/actuator/health",
+    "dataCenterInfo": {
+      "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
+      "name": "MyOwn"
+    },
+    "leaseInfo": { "renewalIntervalInSecs": 15, "durationInSecs": 60 }
+  }
+}

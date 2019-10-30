@@ -1,0 +1,12 @@
+README.md
+.gradle
+build/
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+
+### VS Code ###
+.vscode/

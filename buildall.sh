@@ -13,17 +13,18 @@ function main(){
         elif [[ -e "main.go" ]]; then
           echo 'building golang app'
           GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o clientgo
-          # docker build -t "clientgo" .
+          docker build -t "clientgo" .
         elif [[ -e "package.json" ]]; then
            echo 'building nodejs app'
+          #  npm i
           #  docker build -t "clientjs" .
         elif [[ -e "mix.exs" ]]; then
            echo 'building elixir app'
-           docker build -t "clientex" .
+          #  docker build -t "clientex" .
         elif [[ -e "Cargo.toml" ]]; then
            echo 'building rust app'
-           cargo build --release
-           docker build -t "clientrs" .
+          #  cargo build --release
+          #  docker build -t "clientrs" .
 #           rustup target add x86_64-unknown-linux-musl
 #         #  crosscompile to run in alpine
 #         #  apt install musl-gcc

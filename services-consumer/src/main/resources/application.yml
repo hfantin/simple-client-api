@@ -1,0 +1,18 @@
+
+server:
+  port: 9000
+
+spring:
+  application:
+    name: services-consumer
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        healthCheckInterval: 30s
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

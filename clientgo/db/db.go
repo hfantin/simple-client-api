@@ -8,8 +8,8 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func Connect(user, password, dbname string) *sql.DB {
-	dbUri := fmt.Sprintf("%s:%s@/%s", user, password, dbname)
+func Connect(host, user, password, dbname string) *sql.DB {
+	dbUri := fmt.Sprintf("%s:%s@tcp(%s)/%s", user, password, host, dbname)
 	db, err := sql.Open("mysql", dbUri)
 	if err != nil {
 		log.Fatal(err)

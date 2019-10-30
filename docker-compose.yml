@@ -1,5 +1,13 @@
 version: "3.7"
 services:
+  consul:
+    image: consul:latest
+    container_name: "consul"
+    hostname: "consul"
+    ports:
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:53"
   mysql:
     image: mysql:5.7
     container_name: "mysql"
@@ -14,46 +22,19 @@ services:
      - TZ=Brazil/East
     volumes:
      - .docker/mysql/data:/var/lib/mysql
-  pg:
-    image: postgres:9.5
-    container_name: "pg"
-    hostname: "pg"
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_USER: guest
-      POSTGRES_PASSWORD: guest
-      POSTGRES_DB:       test
-    volumes:
-      - .docker/postgres/data:/var/lib/postgresql/data
-  consul:
-    image: consul:latest
-    container_name: "consul"
-    hostname: "consul"
-    ports:
-      - "8400:8400"
-      - "8500:8500"
-      - "8600:53"
-  eurekaserver:
-    image: com.github.hfantin/eurekasrv:latest
-    container_name: "eurekaserver"
-    hostname: "eurekaserver"
-    ports:
-      - 8761:8761
-    depends_on:
-      - mysql
-  zuulserver:
-    image: com.github.hfantin/zuulsrv:latest
-    container_name: "zuulserver"
-    hostname: "zuulserver"
-    ports:
-      - 5555:5555
-    environment:  
-      server_port: 5555
-      logging_level_root: INFO
-      eureka_client_serviceUrl_defaultZone: http://eurekaserver:8761/eureka/
-    depends_on:
-      - eurekaserver
+  # pg:
+  #   image: postgres:9.5
+  #   container_name: "pg"
+  #   hostname: "pg"
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     POSTGRES_USER: guest
+  #     POSTGRES_PASSWORD: guest
+  #     POSTGRES_DB:       test
+  #   volumes:
+  #     - .docker/postgres/data:/var/lib/postgresql/data
+
   clientsb:
     image: com.github.hfantin/clientsb:latest
     container_name: "clientsb"
@@ -71,85 +52,108 @@ services:
     depends_on:
       - mysql
       - consul
-  clientsb2:
-    image: com.github.hfantin/clientsb:latest
-    container_name: "clientsb2"
-    hostname: "clientsb"
-    ports:
-      - 5001:5001
-    environment:
-      server_port: 5001
-      logging_level_root: INFO
-      spring_cloud_consul_host: consul
-      spring_cloud_consul_port: 8500
-      spring_datasource_url: jdbc:mysql://mysql:3306/test
-      spring_datasource_username: guest
-      spring_datasource_password: guest
-    depends_on:
-      - mysql
-      - consul
+  # https://github.com/hashicorp/consul/blob/master/api/api.go
   clientgo:
     image: clientgo:latest
     container_name: "clientgo"
     hostname: "clientgo"
     ports:
-      - 5002:5002
+      - 5001:5001
     environment:
-      SERVER_PORT: 5002
+      SERVER_PORT: 5001
       DB_HOST: mysql:3306
       DB_USER: guest
       DB_PASS: guest
       DB_NAME: test
+      CONSUL_HTTP_ADDR: consul:8500
     depends_on:
      - mysql
+     - consul
     links:
       - mysql
 
-  clientjs:
-    image: clientjs:latest
-    container_name: "clientjs"
-    hostname: "clientjs"
-    ports:
-      - 5003:5000
-    environment:
-      SERVER_PORT: 5000
-      DB_HOST: mysql
-      DB_USER: guest
-      DB_PASS: guest
-      DB_NAME: test
-    depends_on:
-     - mysql
-    links:
-      - mysql
+  # clientjs:
+  #   image: clientjs:latest
+  #   container_name: "clientjs"
+  #   hostname: "clientjs"
+  #   ports:
+  #     - 5003:5000
+  #   environment:
+  #     SERVER_PORT: 5000
+  #     DB_HOST: mysql
+  #     DB_USER: guest
+  #     DB_PASS: guest
+  #     DB_NAME: test
+  #   depends_on:
+  #    - mysql
+  #   links:
+  #     - mysql
       
-  clientrs:
-    image: clientrs:latest
-    container_name: "clientrs"
-    hostname: "clientrs"
-    ports:
-      - 5004:5000
-    environment:
-      DATABASE_URL: postgres://guest:guest@pg/test
-      ROCKET_ADDRESS: localhost
-      ROCKET_PORT: 5000
-    depends_on:
-      - pg
-    links:
-      - pg
+  # clientrs:
+  #   image: clientrs:latest
+  #   container_name: "clientrs"
+  #   hostname: "clientrs"
+  #   ports:
+  #     - 5004:5000
+  #   environment:
+  #     DATABASE_URL: postgres://guest:guest@pg/test
+  #     ROCKET_ADDRESS: 0.0.0.0
+  #     ROCKET_PORT: 5000
+  #   depends_on:
+  #     - pg
+  #   links:
+  #     - pg
 
-  clientex: 
-    image: clientex:latest
-    container_name: "clientex"
-    hostname: "clientex"
+  # clientex: 
+  #   image: clientex:latest
+  #   container_name: "clientex"
+  #   hostname: "clientex"
+  #   ports:
+  #     - 5005:5000
+  #   environment:
+  #     PORT: 5000
+  #     MIX_ENV: prod
+  #     DATABASE_URL: ecto://guest:guest@mysql/test
+  #     POOL_SIZE: 50
+  #     SECRET_KEY_BASE: cerveja
+  #   depends_on:
+  #     - mysql
+  #   links:
+  #     - mysql
+
+  services-consumer:
+    image: com.github.hfantin/services-consumer:latest
+    container_name: "services-consumer"
+    hostname: "services-consumer"
     ports:
       - 5005:5000
     environment:
-      PORT: 5000
-      MIX_ENV: prod
-      DATABASE_URL: ecto://guest:guest@mysql/test
-      POOL_SIZE: 50
-      SECRET_KEY_BASE: cerveja
+      server_port: 5000
+      logging_level_root: INFO
+      spring_cloud_consul_host: consul
+      spring_cloud_consul_port: 8500
     depends_on:
-      - mysql
-    links:
-      - mysql
+      - consul
+
+
+
+  # eurekaserver:
+  #   image: com.github.hfantin/eurekasrv:latest
+  #   container_name: "eurekaserver"
+  #   hostname: "eurekaserver"
+  #   ports:
+  #     - 8761:8761
+  #   depends_on:
+  #     - mysql
+  # zuulserver:
+  #   image: com.github.hfantin/zuulsrv:latest
+  #   container_name: "zuulserver"
+  #   hostname: "zuulserver"
+  #   ports:
+  #     - 5555:5555
+  #   environment:  
+  #     server_port: 5555
+  #     logging_level_root: INFO
+  #     eureka_client_serviceUrl_defaultZone: http://eurekaserver:8761/eureka/
+  #   depends_on:
+  #     - eurekaserver
