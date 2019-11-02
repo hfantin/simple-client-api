@@ -1,4 +1,4 @@
-FROM elixir:latest
+FROM elixir:1.9.2-alpine
 WORKDIR /opt/app
 COPY . .
 RUN mix local.hex --force

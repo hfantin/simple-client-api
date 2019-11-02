@@ -22,21 +22,21 @@ services:
      - TZ=Brazil/East
     volumes:
      - .docker/mysql/data:/var/lib/mysql
-  # pg:
-  #   image: postgres:9.5
-  #   container_name: "pg"
-  #   hostname: "pg"
-  #   ports:
-  #     - 5432:5432
-  #   environment:
-  #     POSTGRES_USER: guest
-  #     POSTGRES_PASSWORD: guest
-  #     POSTGRES_DB:       test
-  #   volumes:
-  #     - .docker/postgres/data:/var/lib/postgresql/data
+  pg:
+    image: postgres:9.5
+    container_name: "pg"
+    hostname: "pg"
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: guest
+      POSTGRES_PASSWORD: guest
+      POSTGRES_DB:       test
+    volumes:
+      - .docker/postgres/data:/var/lib/postgresql/data
 
   clientsb:
-    image: com.github.hfantin/clientsb:latest
+    image: clientsb:latest
     container_name: "clientsb"
     hostname: "clientsb"
     ports:
@@ -72,63 +72,63 @@ services:
     links:
       - mysql
 
-  # clientjs:
-  #   image: clientjs:latest
-  #   container_name: "clientjs"
-  #   hostname: "clientjs"
-  #   ports:
-  #     - 5003:5000
-  #   environment:
-  #     SERVER_PORT: 5000
-  #     DB_HOST: mysql
-  #     DB_USER: guest
-  #     DB_PASS: guest
-  #     DB_NAME: test
-  #   depends_on:
-  #    - mysql
-  #   links:
-  #     - mysql
+  clientjs:
+    image: clientjs:latest
+    container_name: "clientjs"
+    hostname: "clientjs"
+    ports:
+      - 5002:5002
+    environment:
+      SERVER_PORT: 5002
+      DB_HOST: mysql
+      DB_USER: guest
+      DB_PASS: guest
+      DB_NAME: test
+    depends_on:
+     - mysql
+    links:
+      - mysql
       
-  # clientrs:
-  #   image: clientrs:latest
-  #   container_name: "clientrs"
-  #   hostname: "clientrs"
-  #   ports:
-  #     - 5004:5000
-  #   environment:
-  #     DATABASE_URL: postgres://guest:guest@pg/test
-  #     ROCKET_ADDRESS: 0.0.0.0
-  #     ROCKET_PORT: 5000
-  #   depends_on:
-  #     - pg
-  #   links:
-  #     - pg
+  clientrs:
+    image: clientrs:latest
+    container_name: "clientrs"
+    hostname: "clientrs"
+    ports:
+      - 5003:5003
+    environment:
+      DATABASE_URL: postgres://guest:guest@pg/test
+      ROCKET_ADDRESS: 0.0.0.0
+      ROCKET_PORT: 5003
+    depends_on:
+      - pg
+    links:
+      - pg
 
-  # clientex: 
-  #   image: clientex:latest
-  #   container_name: "clientex"
-  #   hostname: "clientex"
-  #   ports:
-  #     - 5005:5000
-  #   environment:
-  #     PORT: 5000
-  #     MIX_ENV: prod
-  #     DATABASE_URL: ecto://guest:guest@mysql/test
-  #     POOL_SIZE: 50
-  #     SECRET_KEY_BASE: cerveja
-  #   depends_on:
-  #     - mysql
-  #   links:
-  #     - mysql
+  clientex: 
+    image: clientex:latest
+    container_name: "clientex"
+    hostname: "clientex"
+    ports:
+      - 5004:5004
+    environment:
+      PORT: 5004
+      MIX_ENV: prod
+      DATABASE_URL: ecto://guest:guest@mysql/test
+      POOL_SIZE: 50
+      SECRET_KEY_BASE: cerveja
+    depends_on:
+      - mysql
+    links:
+      - mysql
 
   services-consumer:
-    image: com.github.hfantin/services-consumer:latest
+    image: services-consumer:latest
     container_name: "services-consumer"
     hostname: "services-consumer"
     ports:
-      - 5005:5000
+      - 5005:5005
     environment:
-      server_port: 5000
+      server_port: 5005
       logging_level_root: INFO
       spring_cloud_consul_host: consul
       spring_cloud_consul_port: 8500
