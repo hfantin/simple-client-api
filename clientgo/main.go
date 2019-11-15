@@ -13,11 +13,14 @@ import (
 	"github.com/hfantin/clientgo/utils"
 )
 
+var consul client.Consul
+
 func main() {
 	printLogo()
 	env := utils.Config()
 	handleSigterm()
-	client.RegisterServiceWithConsul(env.ServerPort)
+	consul = client.Consul{}
+	consul.Register(env.ServerPort)
 	go server.StartWebServer(env)
 	wg := sync.WaitGroup{} // Use a WaitGroup to block main() exit
 	wg.Add(1)
@@ -42,6 +45,7 @@ func handleSigterm() {
 	go func() {
 		<-c
 		log.Println("Stopping server...")
+		consul.Deregister()
 		os.Exit(1)
 	}()
 }

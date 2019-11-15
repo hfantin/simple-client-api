@@ -9,13 +9,25 @@ import (
 	consulapi "github.com/hashicorp/consul/api"
 )
 
-func RegisterServiceWithConsul(port string) {
-	log.Println("register service with consul", port)
+type Consul struct {
+	consul *consulapi.Client
+	port   string
+}
+
+func newClient() *consulapi.Client {
+	log.Println("creating new consul client")
 	config := consulapi.DefaultConfig()
 	consul, err := consulapi.NewClient(config)
 	if err != nil {
 		log.Fatalln(err)
 	}
+	return consul
+}
+
+func (c *Consul) Register(port string) {
+	log.Println("register service with consul", port)
+	c.consul = newClient()
+	c.port = port
 	registration := new(consulapi.AgentServiceRegistration)
 	registration.ID = "clients-" + port
 	registration.Name = "clients"
@@ -33,7 +45,12 @@ func RegisterServiceWithConsul(port string) {
 		address, port)
 	registration.Check.Interval = "5s"
 	registration.Check.Timeout = "3s"
-	consul.Agent().ServiceRegister(registration)
+	c.consul.Agent().ServiceRegister(registration)
+}
+
+func (c *Consul) Deregister() {
+	log.Println("deregister service ", c.port)
+	c.consul.Agent().ServiceDeregister("clients-" + c.port)
 }
 
 // func getIp() string {

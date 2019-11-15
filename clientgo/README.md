@@ -30,6 +30,8 @@ go build
 
 - [consul api](https://github.com/hashicorp/consul/blob/master/api/api.go)
 
+- [consul register go](http://varunksaini.com/consul-service-discovery-golang/)
+
 # Framework for microservices in go
 
 - go-kit

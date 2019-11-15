@@ -216,3 +216,9 @@ export HTTP_PROXY=http://proxy.example.com:8000/
 export HTTPS_PROXY=https://proxy.example.com:8000/
 export FTP_PROXY=ftp://proxy.example.com:8000/
 ```
+# docker-compose
+- remove container: 
+```
+docker-compose rm -fsv container_name
+```
+

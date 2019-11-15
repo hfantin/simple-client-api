@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"database/sql"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -21,7 +20,7 @@ func (c *Controller) Initialize(db *sql.DB) {
 }
 
 func (c *Controller) GetAllClients(w http.ResponseWriter, r *http.Request) {
-	log.Println("getAllclients")
+	// log.Println("getAllclients")
 	clients, err := model.GetAllClients(c.DB)
 	if err != nil {
 		u.RespondWithError(w, http.StatusInternalServerError, err.Error())
