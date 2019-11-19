@@ -12,6 +12,7 @@ spring:
       port: 8500
       discovery:
         healthCheckInterval: 30s
+        preferIpAddress: true
   main:
     lazy-initialization: true
   application:

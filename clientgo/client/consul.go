@@ -3,7 +3,7 @@ package client
 import (
 	"fmt"
 	"log"
-	"os"
+	"net"
 	"strconv"
 
 	consulapi "github.com/hashicorp/consul/api"
@@ -31,7 +31,7 @@ func (c *Consul) Register(port string) {
 	registration := new(consulapi.AgentServiceRegistration)
 	registration.ID = "clients-" + port
 	registration.Name = "clients"
-	address := hostname()
+	address := getIp()
 	registration.Address = address
 	log.Println("register service with consul - address", address)
 	porta, err := strconv.Atoi(port)
@@ -53,26 +53,26 @@ func (c *Consul) Deregister() {
 	c.consul.Agent().ServiceDeregister("clients-" + c.port)
 }
 
-// func getIp() string {
-// 	addrs, err := net.InterfaceAddrs()
-// 	if err != nil {
-// 		return ""
-// 	}
-// 	for _, address := range addrs {
-// 		// check the address type and if it is not a loopback the display it
-// 		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-// 			if ipnet.IP.To4() != nil {
-// 				return ipnet.IP.String()
-// 			}
-// 		}
-// 	}
-// 	return ""
-// }
-
-func hostname() string {
-	hn, err := os.Hostname()
+func getIp() string {
+	addrs, err := net.InterfaceAddrs()
 	if err != nil {
-		log.Fatalln(err)
+		return ""
 	}
-	return hn
+	for _, address := range addrs {
+		// check the address type and if it is not a loopback the display it
+		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				return ipnet.IP.String()
+			}
+		}
+	}
+	return ""
 }
+
+// func hostname() string {
+// 	hn, err := os.Hostname()
+// 	if err != nil {
+// 		log.Fatalln(err)
+// 	}
+// 	return hn
+// }

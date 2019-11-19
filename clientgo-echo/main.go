@@ -9,6 +9,7 @@ import (
 
 	nested "github.com/antonfisher/nested-logrus-formatter"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/hfantin/clientgo-echo/client"
 	"github.com/hfantin/clientgo-echo/utils"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -25,11 +26,14 @@ type Cli struct {
 
 var db *sql.DB
 var logger = logrus.New()
+var consul client.Consul
 
 func main() {
 	env := utils.Config()
 	db = initDB(env)
 	initLogger(env.LoggerLevel)
+	consul = client.Consul{}
+	consul.Register(env.ServerPort)
 	initServer(env.ServerPort)
 
 }
@@ -43,10 +47,14 @@ func initServer(port string) {
 		AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE},
 	}))
 	e.GET("/v1/clients", getClients)
-
-	e.Server.Addr = ":" + port
+	e.GET("/actuator/health", health)
+	e.GET("/actuator/info", info)
 	logger.Info("Starting clientgo-echo server on port ", port)
+	e.Server.Addr = ":" + port
 	graceful.ListenAndServe(e.Server, 5*time.Second)
+	logger.Info("Stopping server...")
+	consul.Deregister()
+
 }
 
 // loggger https://github.com/antonfisher/nested-logrus-formatter
@@ -90,4 +98,19 @@ func getClients(ctx echo.Context) error {
 		clients = append(clients, cli)
 	}
 	return ctx.JSON(http.StatusOK, clients)
+}
+
+func info(ctx echo.Context) error {
+	build := make(map[string]interface{})
+	status := make(map[string]interface{})
+	status["name"] = "clientgo-echo"
+	status["version"] = "0.0.1"
+	build["build"] = status
+	return ctx.JSON(http.StatusOK, build)
+}
+
+func health(ctx echo.Context) error {
+	health := make(map[string]interface{})
+	health["status"] = "UP"
+	return ctx.JSON(http.StatusOK, health)
 }

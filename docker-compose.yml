@@ -62,6 +62,7 @@ services:
       logging_level_root: INFO
       spring_cloud_consul_host: consul
       spring_cloud_consul_port: 8500
+      spring_cloud_consul_discovery_preferIpAddress: "true"
       spring_datasource_url: jdbc:mysql://mysql:3306/test
       spring_datasource_username: guest
       spring_datasource_password: guest
