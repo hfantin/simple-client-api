@@ -20,7 +20,7 @@ go build
 - go mod init github.com/hfantin/clientgo
 
 # Links
-
+- [based on this article](https://github.com/hashicorp/consul/blob/master/api/api.go)
 - [go + gorilla](https://medium.com/@rafaelacioly/construindo-uma-api-restful-com-go-d6007e4faff6)
 - [go + gorilla + mysql](https://medium.com/@kelvin_sp/building-and-testing-a-rest-api-in-golang-using-gorilla-mux-and-mysql-1f0518818ff6)
 - [go nullable](https://medium.com/aubergine-solutions/how-i-handled-null-possible-values-from-database-rows-in-golang-521fb0ee267)

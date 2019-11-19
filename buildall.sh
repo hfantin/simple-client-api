@@ -1,30 +1,36 @@
 #!/bin/bash
 
 function main(){
-    echo "> Executa build em todos os projetos"
+    echo "> Building all projects..."
     for dir in */; do
-      echo "> $dir"
+      echo "> $dir" 
+      app="github.com/hfantin/${dir%/}"
       if [[ -e "$dir/Dockerfile" ]]; then
-        echo "aqui tem dockerfile $dir"
+        echo "building $app"
         cd $dir
-        if [[ -e "build.gradle" ]]; then
-            echo 'building springboot app'
+        if [[ -e "main.go" ]]; then
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o build/app 
+          docker build -t "$app" .
+        elif [[ -e "build.gradle" ]]; then
             ./gradlew clean build docker
-        elif [[ -e "main.go" ]]; then
-          echo 'building golang app'
-          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o clientgo
-          docker build -t "clientgo" .
         elif [[ -e "package.json" ]]; then
-           echo 'building nodejs app'
            npm i
-           docker build -t "clientjs" .
+           docker build -t "$app" .
         elif [[ -e "mix.exs" ]]; then
-           echo 'building elixir app'
-           docker build -t "clientex" .
+           docker build -t "$app" .
         elif [[ -e "Cargo.toml" ]]; then
-           echo 'building rust app'
            cargo build --release
-           docker build -t "clientrs" .
+           docker build -t "$app" .
+        fi
+        cd ..
+      fi
+    done
+}
+
+
+main
+
+# TODO clientrs with alpine
 #           rustup target add x86_64-unknown-linux-musl
 #         #  crosscompile to run in alpine
 #         #  apt install musl-gcc
@@ -32,10 +38,3 @@ function main(){
 #           # musl-gcc 
 #           cargo build --release --target=x86_64-unknown-linux-musl
 #           # cargo build --release --target=x86_64-unknown-linux-musl
-        fi
-        cd ..
-      fi
-    done
-}
-
-main

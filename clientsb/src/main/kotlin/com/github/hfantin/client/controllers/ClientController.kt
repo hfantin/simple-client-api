@@ -23,7 +23,7 @@ class ClientController {
 
     @GetMapping
     fun findAll(): MutableList<Client> {
-        logger.info("findAll clients")
+        //logger.info("findAll clients")
         return clientService.findAll()
     }  
 

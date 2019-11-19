@@ -57,7 +57,7 @@ dependencyManagement {
 docker {
 	dependsOn build
 	// name "${project.group}/${jar.archiveBaseName.get()}"
-	name "${jar.archiveBaseName.get()}"
+	name "github.com/hfantin/${jar.archiveBaseName.get()}"
 	files bootJar.archiveFile
 	buildArgs(['JAR_FILE': "${bootJar.archiveFileName.get()}"])
 }

@@ -2,16 +2,17 @@ version: "3.7"
 services:
   consul:
     image: consul:latest
-    container_name: "consul"
-    hostname: "consul"
+    container_name: consul
+    hostname: consul
     ports:
       - "8400:8400"
       - "8500:8500"
       - "8600:53"
+
   mysql:
     image: mysql:5.7
-    container_name: "mysql"
-    hostname: "mysql"
+    container_name: mysql
+    hostname: mysql
     ports:
      - 3306:3306
     environment:
@@ -24,8 +25,8 @@ services:
      - .docker/mysql/data:/var/lib/mysql
   pg:
     image: postgres:9.5
-    container_name: "pg"
-    hostname: "pg"
+    container_name: pg
+    hostname: pg
     ports:
       - 5432:5432
     environment:
@@ -35,10 +36,25 @@ services:
     volumes:
       - .docker/postgres/data:/var/lib/postgresql/data
 
+  # ambassador:
+  #   container_name: ambassador
+  #   hostname: ambassador
+  #   image: quay.io/datawire/ambassador:0.85.0
+  #   ports:
+  #   - 8080:8080
+  #   volumes:
+  #     # mount a volume where we can inject configuration files
+  #     - ./gateway/config:/ambassador/ambassador-config
+  #   environment:
+  #   # don't try to watch Kubernetes for configuration changes
+  #     AMBASSADOR_NO_KUBEWATCH: no_kubewatch
+  #   depends_on:
+  #     - consul
+
   clientsb:
-    image: clientsb:latest
-    container_name: "clientsb"
-    hostname: "clientsb"
+    image: github.com/hfantin/clientsb:latest
+    container_name: clientsb
+    hostname: clientsb
     ports:
       - 5000:5000
     environment:
@@ -52,11 +68,11 @@ services:
     depends_on:
       - mysql
       - consul
-  # https://github.com/hashicorp/consul/blob/master/api/api.go
+
   clientgo:
-    image: clientgo:latest
-    container_name: "clientgo"
-    hostname: "clientgo"
+    image: github.com/hfantin/clientgo:latest
+    container_name: clientgo
+    hostname: clientgo
     ports:
       - 5001:5001
     environment:
@@ -71,15 +87,35 @@ services:
      - consul
     links:
       - mysql
-
-  clientjs:
-    image: clientjs:latest
-    container_name: "clientjs"
-    hostname: "clientjs"
+  
+  clientgo-echo:
+    image: github.com/hfantin/clientgo-echo:latest
+    container_name: clientgo-echo
+    hostname: clientgo-echo
     ports:
       - 5002:5002
     environment:
       SERVER_PORT: 5002
+      DB_HOST: mysql:3306
+      DB_USER: guest
+      DB_PASS: guest
+      DB_NAME: test
+      CONSUL_HTTP_ADDR: consul:8500
+      LOGGER_LEVEL: info
+    depends_on:
+     - mysql
+     - consul
+    links:
+      - mysql
+
+  clientjs:
+    image: github.com/hfantin/clientjs:latest
+    container_name: clientjs
+    hostname: clientjs
+    ports:
+      - 5003:5003
+    environment:
+      SERVER_PORT: 5003
       DB_HOST: mysql
       DB_USER: guest
       DB_PASS: guest
@@ -90,28 +126,28 @@ services:
       - mysql
       
   clientrs:
-    image: clientrs:latest
-    container_name: "clientrs"
-    hostname: "clientrs"
+    image: github.com/hfantin/clientrs:latest
+    container_name: clientrs
+    hostname: clientrs
     ports:
-      - 5003:5003
+      - 5004:5004
     environment:
       DATABASE_URL: postgres://guest:guest@pg/test
       ROCKET_ADDRESS: 0.0.0.0
-      ROCKET_PORT: 5003
+      ROCKET_PORT: 5004
     depends_on:
       - pg
     links:
       - pg
 
   clientex: 
-    image: clientex:latest
-    container_name: "clientex"
-    hostname: "clientex"
+    image: github.com/hfantin/clientex:latest
+    container_name: clientex
+    hostname: clientex
     ports:
-      - 5004:5004
+      - 5005:5005
     environment:
-      PORT: 5004
+      PORT: 5005
       MIX_ENV: prod
       DATABASE_URL: ecto://guest:guest@mysql/test
       POOL_SIZE: 50
@@ -122,38 +158,15 @@ services:
       - mysql
 
   services-consumer:
-    image: services-consumer:latest
-    container_name: "services-consumer"
-    hostname: "services-consumer"
+    image: github.com/hfantin/services-consumer:latest
+    container_name: services-consumer
+    hostname: services-consumer
     ports:
-      - 5005:5005
+      - 5006:5006
     environment:
-      server_port: 5005
+      server_port: 5006
       logging_level_root: INFO
       spring_cloud_consul_host: consul
       spring_cloud_consul_port: 8500
     depends_on:
       - consul
-
-
-
-  # eurekaserver:
-  #   image: com.github.hfantin/eurekasrv:latest
-  #   container_name: "eurekaserver"
-  #   hostname: "eurekaserver"
-  #   ports:
-  #     - 8761:8761
-  #   depends_on:
-  #     - mysql
-  # zuulserver:
-  #   image: com.github.hfantin/zuulsrv:latest
-  #   container_name: "zuulserver"
-  #   hostname: "zuulserver"
-  #   ports:
-  #     - 5555:5555
-  #   environment:  
-  #     server_port: 5555
-  #     logging_level_root: INFO
-  #     eureka_client_serviceUrl_defaultZone: http://eurekaserver:8761/eureka/
-  #   depends_on:
-  #     - eurekaserver
