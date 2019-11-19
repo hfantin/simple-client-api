@@ -28,11 +28,15 @@ var db *sql.DB
 var logger = logrus.New()
 var consul client.Consul
 
+// var redis client.RedisClient
+
 func main() {
 	env := utils.Config()
 	db = initDB(env)
 	initLogger(env.LoggerLevel)
 	consul = client.Consul{}
+	// redis = client.RedisClient{}
+	// redis.New()
 	consul.Register(env.ServerPort)
 	initServer(env.ServerPort)
 
@@ -81,6 +85,17 @@ func initDB(env utils.Environment) *sql.DB {
 
 func getClients(ctx echo.Context) error {
 	logger.Debug("get clients")
+
+	// chave := "teste"
+	// cache, err := redis.Get(chave)
+	// if err != nil {
+	// 	logger.Info("testando cache")
+	// 	redis.Set(chave, []byte("teste"))
+	// } else {
+	// 	logger.Info("cache: ", string(cache))
+
+	// }
+
 	rows, err := db.Query("SELECT * FROM CLI")
 	if err != nil {
 		logger.Error("Falha ao executar query de clientes: ", err)
@@ -97,6 +112,7 @@ func getClients(ctx echo.Context) error {
 		}
 		clients = append(clients, cli)
 	}
+
 	return ctx.JSON(http.StatusOK, clients)
 }
 
