@@ -23,6 +23,7 @@ services:
      - TZ=Brazil/East
     volumes:
      - .docker/mysql/data:/var/lib/mysql
+     - .dump:/docker-entrypoint-initdb.d
   pg:
     image: postgres:9.5
     container_name: pg

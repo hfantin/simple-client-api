@@ -11,16 +11,16 @@ function main(){
         if [[ -e "main.go" ]]; then
           GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o build/app 
           docker build -t "$app" .
-        elif [[ -e "build.gradle" ]]; then
-            ./gradlew clean build docker
-        elif [[ -e "package.json" ]]; then
-           npm i
-           docker build -t "$app" .
-        elif [[ -e "mix.exs" ]]; then
-           docker build -t "$app" .
-        elif [[ -e "Cargo.toml" ]]; then
-           cargo build --release
-           docker build -t "$app" .
+        # elif [[ -e "build.gradle" ]]; then
+        #     ./gradlew clean build docker
+        # elif [[ -e "package.json" ]]; then
+        #    npm i
+        #    docker build -t "$app" .
+        # elif [[ -e "mix.exs" ]]; then
+        #    docker build -t "$app" .
+        # elif [[ -e "Cargo.toml" ]]; then
+        #    cargo build --release
+        #    docker build -t "$app" .
         fi
         cd ..
       fi
