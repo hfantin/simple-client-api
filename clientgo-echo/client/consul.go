@@ -3,8 +3,10 @@ package client
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"net"
 	"strconv"
+	"time"
 
 	consulapi "github.com/hashicorp/consul/api"
 )
@@ -73,3 +75,30 @@ func getIp() string {
 // 	}
 // 	return hn
 // }
+
+func (c *Consul) service(service, tag string) ([]*consulapi.ServiceEntry, *consulapi.QueryMeta, error) {
+	passingOnly := true
+	addrs, meta, err := c.consul.Health().Service(service, tag, passingOnly, nil)
+	if len(addrs) == 0 && err == nil {
+		return nil, nil, fmt.Errorf("service ( %s ) was not found", service)
+	}
+	if err != nil {
+		return nil, nil, err
+	}
+	return addrs, meta, nil
+}
+
+func (c *Consul) Resolve(service, tag string) (string, error) {
+	entries, _, err := c.service(service, tag)
+	if err != nil {
+		return "", err
+	}
+	index := 0
+	if len(entries) > 1 {
+		rand.Seed(time.Now().Unix())
+		index = rand.Intn(len(entries))
+	}
+	entry := entries[index]
+	uri := fmt.Sprintf("http://%s:%d/", entry.Service.Address, entry.Service.Port)
+	return uri, nil
+}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -20,7 +21,7 @@ import (
 type Cli struct {
 	ID        int             `json:"id"`
 	Name      *string         `json:"name"`
-	BirthDate *string         `json:"bithDate"`
+	BirthDate *string         `json:"birthDate"`
 	Email     *sql.NullString `json:"email"`
 }
 
@@ -51,6 +52,7 @@ func initServer(port string) {
 		AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE},
 	}))
 	e.GET("/v1/clients", getClients)
+	e.GET("/v1/check", checkService)
 	e.GET("/actuator/health", health)
 	e.GET("/actuator/info", info)
 	logger.Info("Starting clientgo-echo server on port ", port)
@@ -95,7 +97,6 @@ func getClients(ctx echo.Context) error {
 	// 	logger.Info("cache: ", string(cache))
 
 	// }
-
 	rows, err := db.Query("SELECT * FROM CLI")
 	if err != nil {
 		logger.Error("Falha ao executar query de clientes: ", err)
@@ -130,3 +131,47 @@ func health(ctx echo.Context) error {
 	health["status"] = "UP"
 	return ctx.JSON(http.StatusOK, health)
 }
+
+func checkService(ctx echo.Context) error {
+	service := ctx.QueryParam("service")
+	logger.Debug("Checking service ", service)
+	uriAddr, err := consul.Resolve(service, "")
+	uri := fmt.Sprintf("%s%s", uriAddr, "v1/clients")
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, handleError("Service Error: ", err))
+	}
+	clis := make([]Cli, 0)
+	err = getJson(uri, &clis)
+	logger.Debug("Getting clients from ", uri)
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, handleError("URI call error: ", err))
+	}
+	return ctx.JSON(http.StatusOK, clis)
+
+}
+
+func handleError(msg string, err error) map[string]string {
+	errorMessage := map[string]string{"message": err.Error()}
+	logger.Error(msg, err)
+	return errorMessage
+}
+
+func getJson(uri string, target interface{}) error {
+	r, err := http.Get(uri)
+	if err != nil {
+		logger.Error("uri call failed: ", uri, err)
+		return err
+	}
+	defer r.Body.Close()
+
+	return json.NewDecoder(r.Body).Decode(target)
+}
+
+/*
+type ServiceEntry struct {
+	Node    *Node
+	Service *AgentService
+	Checks  HealthChecks
+}
+
+*/
