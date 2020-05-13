@@ -1,3 +1,4 @@
 /.idea/
 /.docker/
 /gateway/
+/clientgo-redis/
