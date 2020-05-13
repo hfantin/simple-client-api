@@ -9,9 +9,11 @@ import (
 	consulapi "github.com/hashicorp/consul/api"
 )
 
+const APP_NAME = "clients"
+
 type Consul struct {
 	consul *consulapi.Client
-	port   string
+	id     string
 }
 
 func newClient() *consulapi.Client {
@@ -27,10 +29,10 @@ func newClient() *consulapi.Client {
 func (c *Consul) Register(port string) {
 	log.Println("register service with consul", port)
 	c.consul = newClient()
-	c.port = port
+	c.id = fmt.Sprintf("%s-%s", APP_NAME, port)
 	registration := new(consulapi.AgentServiceRegistration)
-	registration.ID = "clients-" + port
-	registration.Name = "clients"
+	registration.ID = c.id
+	registration.Name = APP_NAME
 	address := getIp()
 	registration.Address = address
 	log.Println("register service with consul - address", address)
@@ -49,8 +51,8 @@ func (c *Consul) Register(port string) {
 }
 
 func (c *Consul) Deregister() {
-	log.Println("deregister service ", c.port)
-	c.consul.Agent().ServiceDeregister("clients-" + c.port)
+	log.Println("deregister service ", c.id)
+	c.consul.Agent().ServiceDeregister(c.id)
 }
 
 func getIp() string {
