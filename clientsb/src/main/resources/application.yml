@@ -13,6 +13,9 @@ spring:
       discovery:
         healthCheckInterval: 30s
         preferIpAddress: true
+        instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+#        instanceId: ${spring.application.name}
+#        serviceName: ${spring.application.name}
   main:
     lazy-initialization: true
   application:

@@ -5,7 +5,9 @@ import (
 	"log"
 	"net"
 	"strconv"
+	"strings"
 
+	"github.com/google/uuid"
 	consulapi "github.com/hashicorp/consul/api"
 )
 
@@ -13,6 +15,7 @@ const APP_NAME = "clients"
 
 type Consul struct {
 	consul *consulapi.Client
+	name   string
 	id     string
 }
 
@@ -27,12 +30,15 @@ func newClient() *consulapi.Client {
 }
 
 func (c *Consul) Register(port string) {
-	log.Println("register service with consul", port)
+	log.Println("register service with consul")
+	id := strings.ReplaceAll(uuid.New().String(), "-", "") //strings.ReplaceAll(uuid.New(), "-", "")
 	c.consul = newClient()
-	c.id = fmt.Sprintf("%s-%s", APP_NAME, port)
+	c.name = APP_NAME
+	c.id = fmt.Sprintf("%s-%s", APP_NAME, id)
+	log.Println("register service with consul", c.id)
 	registration := new(consulapi.AgentServiceRegistration)
 	registration.ID = c.id
-	registration.Name = APP_NAME
+	registration.Name = c.name
 	address := getIp()
 	registration.Address = address
 	log.Println("register service with consul - address", address)

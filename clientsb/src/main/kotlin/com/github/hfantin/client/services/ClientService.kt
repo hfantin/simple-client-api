@@ -15,4 +15,6 @@ class ClientService {
 
     fun findAll() = clientRepository.findAll()
 
+    fun findById(id: Int) = clientRepository.findById(id)
+
 }

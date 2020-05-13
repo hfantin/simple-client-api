@@ -5,6 +5,7 @@ go 1.13
 require (
 	github.com/armon/go-metrics v0.3.3 // indirect
 	github.com/go-sql-driver/mysql v1.5.0
+	github.com/google/uuid v1.1.1
 	github.com/gorilla/mux v1.7.4
 	github.com/hashicorp/consul/api v1.4.0
 	github.com/hashicorp/go-hclog v0.13.0 // indirect

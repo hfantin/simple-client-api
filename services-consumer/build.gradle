@@ -1,20 +1,20 @@
 plugins {
-	id "org.springframework.boot" version "2.1.8.RELEASE"
-	id "io.spring.dependency-management" version "1.0.8.RELEASE"
+	id "org.springframework.boot" version "2.2.7.RELEASE"
+	id "io.spring.dependency-management" version "1.0.9.RELEASE"
 	id "com.palantir.docker" version "0.22.1"
-	id 'org.jetbrains.kotlin.jvm' version '1.3.50'
-	id 'org.jetbrains.kotlin.plugin.spring' version '1.3.50'
+	id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+	id 'org.jetbrains.kotlin.plugin.spring' version '1.3.72'
 }
 group = "com.github.hfantin"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
 	mavenCentral()
 }
 
 ext{
-	springCloudVersion = "Greenwich.SR2"
+	springCloudVersion = "Hoxton.SR4"
 }
 
 dependencies {
@@ -23,6 +23,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	// spring cloud
 	implementation("org.springframework.cloud:spring-cloud-starter-consul-all")
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	implementation("javax.xml.bind:jaxb-api:2.3.0")
 	implementation("com.sun.xml.bind:jaxb-impl:2.3.0")
 	implementation("org.glassfish.jaxb:jaxb-runtime:2.3.0")
@@ -38,14 +39,14 @@ dependencies {
 compileKotlin {
 	kotlinOptions {
 		freeCompilerArgs = ['-Xjsr305=strict']
-		jvmTarget = '1.8'
+		jvmTarget = JavaVersion.VERSION_11
 	}
 }
 
 compileTestKotlin {
 	kotlinOptions {
 		freeCompilerArgs = ['-Xjsr305=strict']
-		jvmTarget = '1.8'
+		jvmTarget = JavaVersion.VERSION_11
 	}
 }
 
